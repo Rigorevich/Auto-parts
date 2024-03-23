@@ -2,7 +2,9 @@
   "name": "auto-parts",
   "version": "1.0.0",
   "description": "The app to search autoparts",
-  "scripts": {},
+  "scripts": {
+    "start:client": "cd ./client && npm run dev"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Rigorevich/Auto-parts.git"
