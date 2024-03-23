@@ -1,0 +1,21 @@
+{
+  "name": "auto-parts",
+  "version": "1.0.0",
+  "description": "The app to search autoparts",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rigorevich/Auto-parts.git"
+  },
+  "keywords": [
+    "Auto",
+    "AutoParts",
+    "Details"
+  ],
+  "author": "Rigorevich <rigorevich268@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rigorevich/Auto-parts/issues"
+  },
+  "homepage": "https://github.com/Rigorevich/Auto-parts#readme"
+}
