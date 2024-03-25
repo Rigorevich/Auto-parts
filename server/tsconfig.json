@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es6"],
-    "target": "es6",
+    "target": "ES2018",
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
@@ -11,6 +11,6 @@
     "experimentalDecorators": true,
     "sourceMap": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "index.ts", "db.ts"],
   "exclude": ["node_modules"]
 }
