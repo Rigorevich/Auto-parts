@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "The app to search autoparts",
   "scripts": {
-    "start:client": "cd ./client && npm run dev"
+    "dev:client": "cd ./client && npm run dev",
+    "dev:server": "cd ./server && npm run dev"
   },
   "repository": {
     "type": "git",
