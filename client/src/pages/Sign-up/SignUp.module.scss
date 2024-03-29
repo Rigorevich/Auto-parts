@@ -1,0 +1,51 @@
+@import '../../styles/global.scss';
+
+.signup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--dark-contrast-400-color);
+}
+
+.signup__container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 5rem 10rem;
+  gap: 1.25rem;
+  background-color: var(--white-color);
+  box-shadow: var(--shadow-opened);
+  border-radius: var(--border-radius-large);
+}
+
+.signup__title {
+  @include typography-h1;
+
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  gap: 1rem;
+}
+
+.signup__username_label,
+.signup__password_label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.signup__username_input,
+.signup__password_input,
+.signup__repassword_input {
+}
+
+.signup__submit {
+  margin-top: 0.5rem;
+}
