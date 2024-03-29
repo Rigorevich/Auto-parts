@@ -1,0 +1,34 @@
+:root {
+  /*  Primary colors  */
+  --primary-color: #ef0d33;
+  --red-color: #f2431c;
+  --orange-color: #ff8a00;
+  --green-color: #04af00;
+  --white-color: #fff;
+  --dark-color: #2c333f;
+  --blue-color: #2974ff;
+  --pink-color: #fee7eb;
+
+  /*  Hover colors  */
+  --primary-color-hover: #c70728;
+  --dark-color-hover: #22262e;
+
+  /*  Disabled colors  */
+  --dark-color-disabled: #2c333f80;
+
+  /*  Focus colors  */
+
+  --focus-color: #2974ff;
+
+  /*  Contrast dark colors  */
+  --dark-contrast-50-color: #2c333f;
+  --dark-contrast-100-color: #525962;
+  --dark-contrast-200-color: #798594;
+  --dark-contrast-300-color: #c5d0de;
+  --dark-contrast-400-color: #ced7e3;
+  --dark-contrast-500-color: #d6dee8;
+  --dark-contrast-600-color: #dfe5ed;
+  --dark-contrast-700-color: #e8ecf2;
+  --dark-contrast-800-color: #f0f3f7;
+  --dark-contrast-900-color: #f9fafc;
+}

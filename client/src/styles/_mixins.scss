@@ -1,0 +1,118 @@
+/* Typography - H1 */
+
+@mixin typography-h1 {
+  font-size: var(--font-size-xxl);
+  line-height: var(--line-height-xl);
+}
+
+/* Typography - H2 */
+
+@mixin typography-h2 {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-lg);
+}
+
+/* Typography - SUBTITLE */
+
+@mixin typography-subtitle-16 {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-md);
+}
+
+@mixin typography-subtitle-14 {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-sm);
+}
+
+/* Typography - TEXT */
+
+@mixin typography-text {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-xs);
+}
+
+/* Typography - CAPTION */
+
+@mixin typography-caption {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xxs);
+}
+
+/* Typography - ALLCAPS */
+
+@mixin typography-allcaps {
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+/* Typography - LINKS */
+
+@mixin typography-link {
+  color: var(--primary-color);
+  text-decoration-line: underline;
+  line-height: normal;
+}
+
+/* Transitions */
+
+/* Resets */
+
+@mixin common-reset {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@mixin button-reset {
+  @include common-reset;
+
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  appearance: none;
+  user-select: none;
+}
+
+@mixin anchor-reset {
+  @include common-reset;
+
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Scrollbar */
+
+@mixin scrollbar($small: false, $margin: 0) {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+
+    @if $small {
+      width: 4px;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: var(--border-radius-medium);
+    background: var(--dark-contrast-700-color);
+    margin: $margin;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: var(--border-radius-medium);
+    background-color: var(--dark-contrast-300-color);
+    transition: background-color var(--transition-duration-medium) ease-in-out;
+
+    &:hover {
+      background-color: var(--dark-contrast-200-color);
+    }
+  }
+
+  // For Internet Explorer
+  & {
+    scrollbar-face-color: var(--dark-contrast-300-color);
+    scrollbar-track-color: var(--dark-contrast-700-color);
+  }
+}

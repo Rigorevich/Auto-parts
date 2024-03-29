@@ -1,3 +1,11 @@
+@import 'fonts';
+@import 'variables';
+@import 'mixins';
+
+* {
+  font-family: Inter, sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
