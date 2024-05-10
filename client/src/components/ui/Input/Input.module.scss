@@ -1,0 +1,55 @@
+@import '../../../styles/global.scss';
+
+.input__label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.input__content {
+  @include typography-subtitle-14;
+
+  color: var(--dark-color);
+}
+
+.input__field {
+  outline: 0;
+  padding: 0.625rem 0.75rem;
+  border: var(--border-width-small) solid var(--dark-contrast-300-color);
+  border-radius: var(--border-radius-small);
+  transition: var(--transition-duration-medium);
+
+  &::placeholder {
+    @include typography-subtitle-14;
+
+    color: var(--dark-contrast-200-color);
+  }
+
+  &:hover {
+    border-color: var(--dark-contrast-200-color);
+  }
+
+  &:focus {
+    border-color: var(--focus-color);
+  }
+
+  &.success {
+    border-color: var(--green-color);
+  }
+
+  &.error {
+    border-color: var(--red-color);
+  }
+}
+
+.input__description {
+  @include typography-text;
+
+  &.success {
+    color: var(--green-color);
+  }
+
+  &.error {
+    color: var(--red-color);
+  }
+}

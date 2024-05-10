@@ -5,32 +5,29 @@
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  background-color: var(--dark-contrast-400-color);
 }
 
 .signup__container {
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding: 5rem 10rem;
+  width: 37.5rem;
   gap: 1.25rem;
-  background-color: var(--white-color);
-  box-shadow: var(--shadow-opened);
-  border-radius: var(--border-radius-large);
 }
 
 .signup__title {
   @include typography-h1;
 
-  margin: 0;
+  margin: 0.75rem 0;
   padding: 0;
+  font-size: 32px;
   text-align: center;
 }
 
 .signup__form {
   display: flex;
   flex-direction: column;
-  width: 20rem;
+  width: 100%;
   gap: 1rem;
 }
 
@@ -44,6 +41,10 @@
 .signup__username_input,
 .signup__password_input,
 .signup__repassword_input {
+}
+
+.signup__no_account {
+  @include typography-subtitle-14;
 }
 
 .signup__submit {

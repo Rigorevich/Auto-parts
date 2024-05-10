@@ -1,46 +1,83 @@
-import { FormEventHandler } from 'react';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Input } from '../../components/Input/Input';
-import { Button } from '../../components/Button/Button';
+import { AuthContext, AuthContextInterface } from '../../context/AuthContext';
+import { Input } from '../../components/ui/Input/Input';
+import { Button } from '../../components/ui/Button/Button';
+import { PAGES } from '../../constants/pages';
+import { signUpSchema } from '../../utils/validationForms';
 
 import styles from './SignUp.module.scss';
 
+export type FormValues = {
+  username: string;
+  password: string;
+};
+
 const SignUp = () => {
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-  };
+  const { handleSignUp } = useContext(AuthContext) as AuthContextInterface;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
+    resolver: yupResolver(signUpSchema),
+  });
 
   return (
     <main className={styles.signup}>
       <div className={styles.signup__container}>
         <h2 className={styles.signup__title}>Регистрация</h2>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(handleSignUp)}
           className={styles.signup__form}
         >
           <Input
             type="text"
+            name="username"
             label="Имя пользователя"
             placeholder="Введите имя пользователя"
+            register={register}
+            autoComplete="off"
+            status={errors.username && 'error'}
+            description={errors?.username?.message}
             className={styles.signup__username_input}
           />
           <Input
             type="password"
+            name="password"
             label="Пароль"
             placeholder="Введите пароль"
+            register={register}
+            autoComplete="off"
+            status={errors.password && 'error'}
+            description={errors?.password?.message}
             className={styles.signup__password_input}
           />
-          <Input
+          {/* <Input
             type="password"
             label="Подтвердите пароль"
             placeholder="Введите пароль еще раз"
             className={styles.signup__repassword_input}
-          />
+          /> */}
+          <span className={styles.signup__no_account}>
+            Есть аккаунт?{' '}
+            <Link
+              to={PAGES.SIGN_IN}
+              className={styles.link}
+            >
+              Авторизоваться.
+            </Link>
+          </span>
           <Button
             type="submit"
             className={styles.signup__submit}
+            disabled={isSubmitting}
           >
-            Зарегистрироваться
+            Регистрация
           </Button>
         </form>
       </div>

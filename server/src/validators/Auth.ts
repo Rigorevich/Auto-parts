@@ -5,17 +5,17 @@ import validateRequest from '../utils/ValidateRequest';
 
 export const signInSchema = Yup.object({
   body: Yup.object({
-    username: Yup.string().required('Поле обязательно!').max(25, 'Максимальная длина - 15 символов'),
+    username: Yup.string().required('Поле обязательно!').max(15, 'Максимальная длина - 15 символов'),
     password: Yup.string()
       .required('Поле обязательно!')
-      .min(3, 'Пароль слишком короткий - минимум 5 символа')
+      .min(3, 'Пароль слишком короткий - минимум 3 символа')
       .max(50, 'Максимальная длина - 50 символов'),
   }),
 });
 
 export const signUpSchema = Yup.object({
   body: Yup.object({
-    username: Yup.string().required('Поле обязательно!').max(25, 'Максимальная длина - 25 символов'),
+    username: Yup.string().required('Поле обязательно!').max(15, 'Максимальная длина - 15 символов'),
     password: Yup.string()
       .required('Поле обязательно!')
       .min(3, 'Пароль слишком короткий - минимум 3 символа')
@@ -29,7 +29,7 @@ export const signUpSchema = Yup.object({
 
 export const logoutSchema = Yup.object({
   cookies: Yup.object({
-    refreshToken: Yup.string().required('Поле обязательно!'),
+    refresh_token: Yup.string().required('Поле обязательно!'),
   }),
 });
 

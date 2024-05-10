@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import Fingerprint from 'express-fingerprint';
 
 import AuthRootRouter from './src/routers/Auth';
+import TokenService from './src/services/Auth/Token';
 
 dotenv.config();
 
@@ -23,9 +24,9 @@ app.use(
   }),
 );
 
-app.use('/auth', AuthRootRouter);
-app.get('/aaa', (req, res) => {
-  res.send('aaa');
+app.use('/api/auth', AuthRootRouter);
+app.get('/api/resource', TokenService.checkAccess, (req, res) => {
+  res.status(200).json('Добро пожаловать!' + Date.now());
 });
 
 const bootstrap = async () => {

@@ -1,0 +1,13 @@
+.search_panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+
+  &__input {
+    flex: 1;
+  }
+
+  &__button {
+  }
+}

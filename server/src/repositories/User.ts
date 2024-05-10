@@ -15,7 +15,7 @@ class UserRepository {
     return response.rows[0];
   }
 
-  static async getUserData(username: IUser['username']): Promise<IUser> | null {
+  static async getUserData(username: IUser['username']): Promise<any> {
     const response = await pool.query('SELECT * FROM users WHERE name = $1', [username]);
 
     return response ? response.rows[0] : null;

@@ -6,19 +6,19 @@ class WebError {
 }
 
 export class Unprocessable extends WebError {
-  constructor(error: string) {
+  constructor(error) {
     super(422, error);
   }
 }
 
 export class Conflict extends WebError {
-  constructor(error: string) {
+  constructor(error) {
     super(409, error);
   }
 }
 
 export class NotFound extends WebError {
-  constructor(error: string) {
+  constructor(error) {
     super(404, error);
   }
 }

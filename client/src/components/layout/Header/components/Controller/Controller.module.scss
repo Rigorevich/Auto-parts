@@ -1,0 +1,15 @@
+.controller {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
+  & svg {
+    width: 25px;
+    height: 25px;
+    transition: 0.2s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

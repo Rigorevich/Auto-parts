@@ -4,7 +4,8 @@
   "description": "The app to search autoparts",
   "scripts": {
     "dev:client": "cd ./client && npm run dev",
-    "dev:server": "cd ./server && npm run dev"
+    "dev:server": "cd ./server && npm run dev",
+    "dev": "npm run dev:client && npm run dev:server"
   },
   "repository": {
     "type": "git",

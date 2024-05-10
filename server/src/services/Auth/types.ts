@@ -10,6 +10,10 @@ export interface IGenerateToken extends Pick<IUser, 'id' | 'username' | 'role'> 
 export interface ISignUpArguments extends Pick<IUser, 'username' | 'password' | 'role'> {
   fingerprint: FingerprintResult;
 }
-export interface ISignUpResponse extends IAuthTokens {
-  accessTokenExpiration: number;
+export interface ISignUpResponse extends IAuthTokens {}
+
+export interface ISignInArguments extends Pick<IUser, 'username' | 'password'> {
+  fingerprint: FingerprintResult;
 }
+
+export interface ISignInResponse extends IAuthTokens {}
