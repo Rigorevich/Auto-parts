@@ -55,8 +55,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setIsUserLogged(false);
       inMemoryJWT.deleteToken();
-
       setData({});
+      showSuccessMessage('Вы успешно вышли из аккаунта!');
     } catch (error) {
       showErrowMessage(error);
     }

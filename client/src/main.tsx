@@ -3,6 +3,7 @@ import { StrictMode } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { MantineProvider } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 
 import router from './pages/router';
 import { AuthProvider } from './context/AuthContext';
@@ -15,8 +16,10 @@ ReactDOM.createRoot(root).render(
   <StrictMode>
     <AuthProvider>
       <MantineProvider>
-        <SnackbarProvider />
-        <RouterProvider router={router} />
+        <ModalsProvider>
+          <SnackbarProvider />
+          <RouterProvider router={router} />
+        </ModalsProvider>
       </MantineProvider>
     </AuthProvider>
   </StrictMode>

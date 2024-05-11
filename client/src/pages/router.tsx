@@ -5,7 +5,10 @@ import { PrivateRoute } from '../hoc/privateRoute';
 
 import SignUp from './Sign-up/SignUp';
 import SignIn from './Sign-in/SignIn';
+import Feedback from './Feedback/Feedback';
 import Profile from './Profile/Profile';
+import ProfileEdit from './ProfileEdit/ProfileEdit';
+import ProfileContacts from './ProfileContacts/ProfileContacts';
 import Home from './Home/Home';
 import Layout from './Layout/Layout';
 
@@ -29,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: PAGES.FEEDBACK,
-        element: <div>Feedback</div>,
+        element: <Feedback />,
       },
       {
         path: PAGES.ADMIN_PANEL,
@@ -66,11 +69,11 @@ const router = createBrowserRouter([
               },
               {
                 path: PAGES.PROFILE_EDIT,
-                element: <div>Personal data</div>,
+                element: <ProfileEdit />,
               },
               {
                 path: PAGES.PROFILE_CONTACTS,
-                element: <div>Contacts</div>,
+                element: <ProfileContacts />,
               },
             ],
           },

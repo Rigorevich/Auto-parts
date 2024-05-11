@@ -16,20 +16,4 @@ export const NAVIGATION_OPTIONS = [
     label: 'Мой гараж',
     route: PAGES.GARAGE,
   },
-  {
-    value: 'Добавить 1',
-    label: 'Добавить',
-  },
-  {
-    value: 'Добавить 2',
-    label: 'Добавить',
-  },
-  {
-    value: 'Добавить 3',
-    label: 'Добавить',
-  },
-  {
-    value: 'Добавить 4',
-    label: 'Добавить',
-  },
 ];
