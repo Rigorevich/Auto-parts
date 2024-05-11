@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { Button } from '@mantine/core';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { AuthContext, AuthContextInterface } from '../../context/AuthContext';
 import { Input } from '../../components/ui/Input/Input';
-import { Button } from '../../components/ui/Button/Button';
 import { PAGES } from '../../constants/pages';
 import { signUpSchema } from '../../utils/validationForms';
 

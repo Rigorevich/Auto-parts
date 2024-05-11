@@ -45,6 +45,11 @@
 
 .signup__no_account {
   @include typography-subtitle-14;
+
+  & .link:hover {
+    transition: 0.2s;
+    opacity: 0.5;
+  }
 }
 
 .signup__submit {

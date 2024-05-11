@@ -1,0 +1,28 @@
+@import '../../../../../styles/mixins';
+
+.navigation {
+  --link-color: var(--dark-color);
+  --link-hovered-color: var(--blue-color);
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4rem;
+
+  &__link {
+    @include typography-subtitle-16;
+
+    text-decoration: none;
+    transition: var(--transition-duration-medium);
+    color: var(--link-color);
+    font-size: var(--font-size-xl);
+
+    &:hover {
+      color: var(--link-hovered-color);
+    }
+
+    &.active {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+}
