@@ -5,7 +5,7 @@ import validateRequest from '../utils/ValidateRequest';
 
 export const signInSchema = Yup.object({
   body: Yup.object({
-    username: Yup.string().required('Поле обязательно!').max(15, 'Максимальная длина - 15 символов'),
+    email: Yup.string().required('Поле обязательно!').email(),
     password: Yup.string()
       .required('Поле обязательно!')
       .min(3, 'Пароль слишком короткий - минимум 3 символа')
@@ -15,7 +15,7 @@ export const signInSchema = Yup.object({
 
 export const signUpSchema = Yup.object({
   body: Yup.object({
-    username: Yup.string().required('Поле обязательно!').max(15, 'Максимальная длина - 15 символов'),
+    email: Yup.string().required('Поле обязательно!').email(),
     password: Yup.string()
       .required('Поле обязательно!')
       .min(3, 'Пароль слишком короткий - минимум 3 символа')
@@ -23,7 +23,7 @@ export const signUpSchema = Yup.object({
     role: Yup.number()
       .typeError('Значение должно быть числом!')
       .min(1, 'Минимальное значение - 1')
-      .max(2, 'Максимальное значение - 2'),
+      .max(3, 'Максимальное значение - 3'),
   }),
 });
 

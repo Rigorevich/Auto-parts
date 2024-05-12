@@ -25,7 +25,7 @@ class RefreshSessionRepository {
 
   static async createRefreshSession({ id, refreshToken, fingerprint }: ICreateRefreshSession) {
     await pool.query(
-      'INSERT INTO refresh_sessions (user_id, refresh_token, finger_print) VALUES ($1, $2, $3)',
+      'INSERT INTO refresh_sessions (account_id, refresh_token, finger_print) VALUES ($1, $2, $3)',
       [id.toString(), refreshToken, fingerprint.hash],
     );
   }

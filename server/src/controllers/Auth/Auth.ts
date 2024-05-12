@@ -2,47 +2,49 @@ import { Request, Response } from 'express';
 
 import AuthService from '../../services/Auth/Auth';
 import ErrorsUtils from '../../utils/Errors';
-import { ERole } from '../../types/Role';
+import { Role, Status } from '../../types/Account';
 import { COOKIE_SETTINGS } from '../../../constants';
 import type { ISignUpRequest, ISignUpResponse } from './types';
 
 class AuthController {
   static async signIn(req: ISignUpRequest, res: ISignUpResponse) {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const { fingerprint } = req;
 
     try {
-      const { refreshToken, accessToken, accessTokenExpiration } = await AuthService.signIn({
-        username,
+      const { refreshToken, accessToken, accessTokenExpiration, data } = await AuthService.signIn({
+        email,
         password,
         fingerprint,
       });
 
       res.cookie('refresh_token', refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
 
-      return res.status(200).json({ accessToken, accessTokenExpiration });
+      return res.status(200).json({ accessToken, accessTokenExpiration, accountData: data });
     } catch (err) {
       return ErrorsUtils.catchError(res, err);
     }
   }
 
   static async signUp(req: ISignUpRequest, res: ISignUpResponse) {
-    const { username, password, role } = req.body;
+    const { email, password, role } = req.body;
     const { fingerprint } = req;
 
-    const defaultRole = role || ERole.USER;
+    const defaultRole = role || Role.USER;
+    const defaultStatus = Status.ACTIVE;
 
     try {
-      const { refreshToken, accessToken, accessTokenExpiration } = await AuthService.signUp({
-        username,
+      const { refreshToken, accessToken, accessTokenExpiration, data } = await AuthService.signUp({
+        email,
         password,
         role: defaultRole,
+        status: defaultStatus,
         fingerprint,
       });
 
       res.cookie('refresh_token', refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
 
-      return res.status(200).json({ accessToken, accessTokenExpiration });
+      return res.status(200).json({ accessToken, accessTokenExpiration, accountData: data });
     } catch (err) {
       return ErrorsUtils.catchError(res, err);
     }
@@ -67,14 +69,14 @@ class AuthController {
     const currentRefreshToken = req.cookies.refresh_token;
 
     try {
-      const { accessToken, refreshToken, accessTokenExpiration } = await AuthService.refresh({
+      const { accessToken, refreshToken, accessTokenExpiration, data } = await AuthService.refresh({
         currentRefreshToken,
         fingerprint,
       });
 
       res.cookie('refresh_token', refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
 
-      return res.status(200).json({ accessToken, accessTokenExpiration });
+      return res.status(200).json({ accessToken, accessTokenExpiration, accountData: data });
     } catch (err) {
       return ErrorsUtils.catchError(res, err);
     }

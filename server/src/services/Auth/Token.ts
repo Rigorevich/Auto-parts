@@ -9,7 +9,7 @@ dotenv.config();
 
 class TokenService {
   static async generateAccessToken(payload: IGenerateToken) {
-    return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+    return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
   }
 
   static async generateRefreshToken(payload: IGenerateToken) {

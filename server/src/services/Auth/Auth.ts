@@ -5,50 +5,59 @@ import type { FingerprintResult } from 'express-fingerprint';
 import TokenService from './Token';
 import { NotFound, Forbidden, Conflict, Unauthorized } from '../../utils/Errors';
 import RefreshSessionsRepository from '../../repositories/RefreshSession';
-import UserRepository from '../../repositories/User';
+import AccountRepository from '../../repositories/Account';
 import { ACCESS_TOKEN_EXPIRATION } from '../../../constants';
 import type { ISignUpArguments, ISignUpResponse, ISignInArguments, ISignInResponse } from './types';
+import UsersService from '../Users/Users';
 
 class AuthService {
-  static async signIn({ username, password, fingerprint }: ISignInArguments): Promise<ISignInResponse> {
-    const userData = await UserRepository.getUserData(username);
+  static async signIn({ email, password, fingerprint }: ISignInArguments): Promise<ISignInResponse> {
+    const accountData = await AccountRepository.getAccountData(email);
 
-    if (!userData) {
+    if (!accountData) {
       throw new NotFound('Пользователь не найден!');
     }
 
-    const isPasswordValid = bcrypt.compareSync(password, userData.password);
+    const isPasswordValid = bcrypt.compareSync(password, accountData.password);
 
     if (!isPasswordValid) {
       throw new Unauthorized('Неверный логин или пароль!');
     }
 
-    const payload = { id: userData.id, username, role: userData.role };
+    const payload = { id: accountData.id, email, role: accountData.role };
 
     const accessToken = await TokenService.generateAccessToken(payload);
     const refreshToken = await TokenService.generateRefreshToken(payload);
 
     await RefreshSessionsRepository.createRefreshSession({
-      id: userData.id,
+      id: accountData.id,
       refreshToken,
       fingerprint,
     });
 
-    return { accessToken, refreshToken, accessTokenExpiration: ACCESS_TOKEN_EXPIRATION };
+    return { accessToken, refreshToken, accessTokenExpiration: ACCESS_TOKEN_EXPIRATION, data: accountData };
   }
 
-  static async signUp({ username, password, fingerprint, role }: ISignUpArguments): Promise<ISignUpResponse> {
-    const userData = await UserRepository.getUserData(username);
+  static async signUp({
+    email,
+    password,
+    fingerprint,
+    role,
+    status,
+  }: ISignUpArguments): Promise<ISignUpResponse> {
+    const accountData = await AccountRepository.getAccountData(email);
 
-    if (userData) {
+    if (accountData) {
       throw new Conflict('Такой пользователь уже существует!');
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const { id } = await UserRepository.createUser({ username, hashedPassword, role });
+    const { id } = await AccountRepository.createAccount({ email, hashedPassword, role, status });
 
-    const payload = { id, username, role };
+    await UsersService.createUser(id);
+
+    const payload = { id, email, role, status };
 
     const accessToken = await TokenService.generateAccessToken(payload);
     const refreshToken = await TokenService.generateRefreshToken(payload);
@@ -59,7 +68,7 @@ class AuthService {
       fingerprint,
     });
 
-    return { accessToken, refreshToken, accessTokenExpiration: ACCESS_TOKEN_EXPIRATION };
+    return { accessToken, refreshToken, accessTokenExpiration: ACCESS_TOKEN_EXPIRATION, data: accountData };
   }
 
   static async logOut(refreshToken: string) {
@@ -97,11 +106,9 @@ class AuthService {
       throw new Forbidden(error);
     }
 
-    console.log('payload', payload);
+    const { id, role, email, password, status } = await AccountRepository.getAccountData(payload.email);
 
-    const { id, role, name: username } = await UserRepository.getUserData(payload.username);
-
-    const actualPayload = { id, username, role };
+    const actualPayload = { id, email, role };
 
     const accessToken = await TokenService.generateAccessToken(actualPayload);
     const refreshToken = await TokenService.generateRefreshToken(actualPayload);
@@ -116,6 +123,7 @@ class AuthService {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
+      data: { id, role, email, password, status },
     };
   }
 }

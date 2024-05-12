@@ -1,7 +1,8 @@
 import { Response, Request } from 'express';
 
-import type { IUser } from '../../types/User';
-import type { IAuthTokens } from '../../types/AuthTokens';
+import type { Account } from '../../types/Account';
+import type { AuthTokens } from '../../types/AuthTokens';
 
-export interface ISignUpRequest extends Request<{}, {}, Omit<IUser, 'id'>> {}
-export interface ISignUpResponse extends Response<Omit<IAuthTokens, 'refreshToken'>> {}
+export interface ISignUpRequest extends Request<{}, {}, Omit<Account, 'id'>> {}
+export interface ISignUpResponse
+  extends Response<Omit<AuthTokens, 'refreshToken'> & { accountData: Account }> {}

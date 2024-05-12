@@ -1,19 +1,23 @@
 import { FingerprintResult } from 'express-fingerprint';
 
-import type { IUser } from '../../types/User';
-import type { IAuthTokens } from '../../types/AuthTokens';
+import type { Account } from '../../types/Account';
+import type { AuthTokens } from '../../types/AuthTokens';
 
 // Token.ts
-export interface IGenerateToken extends Pick<IUser, 'id' | 'username' | 'role'> {}
+export interface IGenerateToken extends Pick<Account, 'id' | 'email' | 'role'> {}
 
 // Auth.ts
-export interface ISignUpArguments extends Pick<IUser, 'username' | 'password' | 'role'> {
+export interface ISignUpArguments extends Pick<Account, 'email' | 'password' | 'role' | 'status'> {
   fingerprint: FingerprintResult;
 }
-export interface ISignUpResponse extends IAuthTokens {}
+export interface ISignUpResponse extends AuthTokens {
+  data: Account;
+}
 
-export interface ISignInArguments extends Pick<IUser, 'username' | 'password'> {
+export interface ISignInArguments extends Pick<Account, 'email' | 'password'> {
   fingerprint: FingerprintResult;
 }
 
-export interface ISignInResponse extends IAuthTokens {}
+export interface ISignInResponse extends AuthTokens {
+  data: Account;
+}

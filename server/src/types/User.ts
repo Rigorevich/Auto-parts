@@ -1,8 +1,7 @@
-import { type IUserRole } from './Role';
-
-export interface IUser {
+export interface User {
   id: number;
-  username: string;
-  password: string;
-  role?: IUserRole;
+  name: string;
+  surname: string;
+  patronymic: string;
+  phone_number: string;
 }
