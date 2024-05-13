@@ -1,6 +1,6 @@
 import type { FingerprintResult } from 'express-fingerprint';
 
-import pool from '../../db';
+import pool from '../../../db';
 
 export interface ICreateRefreshSession {
   id: number;

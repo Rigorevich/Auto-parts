@@ -14,6 +14,9 @@ export interface Account {
   id: number;
   email: string;
   password: string;
+  name?: string;
+  surname?: string;
+  phone_number?: string;
   role?: Role;
   status?: Status;
 }

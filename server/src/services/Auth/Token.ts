@@ -34,7 +34,9 @@ class TokenService {
     }
 
     try {
-      req.user = await TokenService.verifyAccessToken(token);
+      const user = await TokenService.verifyAccessToken(token);
+
+      req.user = user;
     } catch (error) {
       return next(new Forbidden(error));
     }

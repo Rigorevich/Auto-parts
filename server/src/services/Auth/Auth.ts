@@ -4,11 +4,10 @@ import type { FingerprintResult } from 'express-fingerprint';
 
 import TokenService from './Token';
 import { NotFound, Forbidden, Conflict, Unauthorized } from '../../utils/Errors';
-import RefreshSessionsRepository from '../../repositories/RefreshSession';
-import AccountRepository from '../../repositories/Account';
+import RefreshSessionsRepository from '../../repositories/Auth/RefreshSession';
+import AccountRepository from '../../repositories/Auth/Account';
 import { ACCESS_TOKEN_EXPIRATION } from '../../../constants';
 import type { ISignUpArguments, ISignUpResponse, ISignInArguments, ISignInResponse } from './types';
-import UsersService from '../Users/Users';
 
 class AuthService {
   static async signIn({ email, password, fingerprint }: ISignInArguments): Promise<ISignInResponse> {
@@ -55,8 +54,6 @@ class AuthService {
 
     const { id } = await AccountRepository.createAccount({ email, hashedPassword, role, status });
 
-    await UsersService.createUser(id);
-
     const payload = { id, email, role, status };
 
     const accessToken = await TokenService.generateAccessToken(payload);
@@ -68,7 +65,12 @@ class AuthService {
       fingerprint,
     });
 
-    return { accessToken, refreshToken, accessTokenExpiration: ACCESS_TOKEN_EXPIRATION, data: accountData };
+    return {
+      accessToken,
+      refreshToken,
+      accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
+      data: { id, email, password: hashedPassword, role, status },
+    };
   }
 
   static async logOut(refreshToken: string) {

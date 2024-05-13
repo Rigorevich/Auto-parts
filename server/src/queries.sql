@@ -2,6 +2,10 @@ CREATE TABLE accounts (
     id SERIAL PRIMARY KEY,
     email VARCHAR(25) UNIQUE NOT NULL,
     password VARCHAR(60) NOT NULL,
+    name VARCHAR(25),
+    surname VARCHAR(25),
+    phone_number VARCHAR(20),
+    status SMALLINT NOT NULL,
     role SMALLINT NOT NULL
 );
 
