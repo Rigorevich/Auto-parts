@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@mantine/core';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -12,13 +12,12 @@ import { signUpSchema } from '../../utils/validationForms';
 import styles from './SignUp.module.scss';
 
 export type FormValues = {
-  username: string;
+  email: string;
   password: string;
 };
 
 const SignUp = () => {
-  const { handleSignUp } = useContext(AuthContext) as AuthContextInterface;
-
+  const { isUserLogged, handleSignUp } = useContext(AuthContext) as AuthContextInterface;
   const {
     register,
     handleSubmit,
@@ -26,6 +25,13 @@ const SignUp = () => {
   } = useForm<FormValues>({
     resolver: yupResolver(signUpSchema),
   });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUserLogged) {
+      navigate(PAGES.ROOT);
+    }
+  }, [isUserLogged]);
 
   return (
     <main className={styles.signup}>
@@ -37,13 +43,13 @@ const SignUp = () => {
         >
           <Input
             type="text"
-            name="username"
+            name="email"
             label="Имя пользователя"
             placeholder="Введите имя пользователя"
             register={register}
             autoComplete="off"
-            status={errors.username && 'error'}
-            description={errors?.username?.message}
+            status={errors.email && 'error'}
+            description={errors?.email?.message}
             className={styles.signup__username_input}
           />
           <Input

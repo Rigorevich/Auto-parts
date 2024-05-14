@@ -39,8 +39,8 @@ class inMemoryJWT {
   }
 
   public static deleteToken() {
-    this.inMemoryJWT = null;
     this.abortRefreshToken();
+    this.inMemoryJWT = null;
     localStorage.setItem(api_config.LOGOUT_STORAGE_KEY, Date.now().toString());
   }
 }

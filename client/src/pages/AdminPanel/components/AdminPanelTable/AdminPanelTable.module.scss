@@ -1,0 +1,26 @@
+@import '../../../../styles/mixins';
+
+.adminPanelTable {
+  flex: 1;
+
+  &__loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__tbody {
+    position: relative;
+  }
+
+  &__notFound {
+    @include typography-subtitle-16;
+
+    font-size: var(--font-size-xl);
+
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    transform: translate(50%, -50%);
+  }
+}

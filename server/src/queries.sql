@@ -9,74 +9,116 @@ CREATE TABLE accounts (
     role SMALLINT NOT NULL
 );
 
-CREATE TABLE refresh_sessions (
+CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
-    account_id INT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
-    refresh_token VARCHAR(400) NOT NULL,
-    finger_print VARCHAR(32) NOT NULL
+    name VARCHAR(255) UNIQUE NOT NULL,
+	image_path VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE brands (
+CREATE TABLE subcategories (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) UNIQUE NOT NULL
+	category_id INT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+    name VARCHAR(255) UNIQUE NOT NULL,
+	image_path VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE car_brands (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+	logo_path VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE models (
     id SERIAL PRIMARY KEY,
-    brand_id INT REFERENCES brands(id),
+	car_brand_id INT NOT NULL REFERENCES car_brands(id) ON DELETE CASCADE,
     name VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE generations (
     id SERIAL PRIMARY KEY,
-    model_id INT REFERENCES models(id),
+	model_id INT NOT NULL REFERENCES models(id) ON DELETE CASCADE,
     name VARCHAR(255) UNIQUE NOT NULL,
-    year_start INT,
-    year_end INT
+	year_start SMALLINT,
+	year_end SMALLINT
+);
+
+CREATE TABLE engines (
+    id SERIAL PRIMARY KEY,
+	fuel_type SMALLINT NOT NULL,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE modifications (
+    id SERIAL PRIMARY KEY,
+	body_type SMALLINT NOT NULL,
+	generation_id INT NOT NULL REFERENCES generations(id) ON DELETE CASCADE,
+	engine_id INT NOT NULL REFERENCES engines(id) ON DELETE CASCADE
+);
+
+CREATE TABLE brands (
+    id SERIAL PRIMARY KEY,
+	name VARCHAR(255) UNIQUE NOT NULL,
+	logo_path VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE autoparts (
     id SERIAL PRIMARY KEY,
-    brand_id INT REFERENCES brands(id),
-    model_id INT REFERENCES models(id),
-    generation_id INT REFERENCES generations(id),
+    brand_id INT REFERENCES brands(id) ON DELETE CASCADE,
+	subcategory_id INT REFERENCES subcategories(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    price NUMERIC(10, 2) NOT NULL
+    price SMALLINT,
+	quantity SMALLINT,
+	discount DECIMAL
 );
 
 CREATE TABLE autoparts_images (
     id SERIAL PRIMARY KEY,
-    autopart_id INT REFERENCES autoparts(id),
-    image_path VARCHAR(255) NOT NULL
+	autopart_id INT REFERENCES autoparts(id) ON DELETE CASCADE,
+	image_path VARCHAR(255)
 );
 
-CREATE TABLE profile (
+CREATE TABLE autoparts_attributes (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    surname VARCHAR(255) NOT NULL,
-    patronymic VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(255) UNIQUE NOT NULL
+	autopart_id INT REFERENCES autoparts(id) ON DELETE CASCADE,
+	type VARCHAR(255) NOT NULL,
+	value VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE feedback_categories (
+CREATE TABLE autoparts_feedbacks (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) UNIQUE NOT NULL
+	account_id INT REFERENCES accounts(id) ON DELETE CASCADE,
+	autopart_id INT REFERENCES autoparts(id) ON DELETE CASCADE,
+	feedback VARCHAR(255),
+	rating SMALLINT NOT NULL
 );
 
-CREATE TABLE feedback (
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    profile_id INT REFERENCES profile(id),
-    category_id INT REFERENCES feedback_categories(id),
-    feedback TEXT NOT NULL,
-    rating SMALLINT NOT NULL
+	account_id INT REFERENCES accounts(id) ON DELETE CASCADE,
+	comment VARCHAR(255),
+	order_date TIMESTAMP NOT NULL,
+	status SMALLINT NOT NULL
 );
 
+CREATE TABLE orders_autoparts (
+	ordered_price SMALLINT,
+	order_id INT REFERENCES orders(id) ON DELETE CASCADE,
+	autopart_id INT REFERENCES autoparts(id) ON DELETE CASCADE
+);
 
 SELECT * FROM accounts;
-SELECT * FROM refresh_sessions;
-SELECT * FROM brands;
+SELECT * FROM categories;
+SELECT * FROM subcategories;
+SELECT * FROM car_brands;
 SELECT * FROM models;
 SELECT * FROM generations;
-SELECT * FROM feedback_categories;
-SELECT * FROM feedback;
+SELECT * FROM engines;
+SELECT * FROM modifications;
+SELECT * FROM brands;
+SELECT * FROM autoparts;
+SELECT * FROM autoparts_images;
+SELECT * FROM autoparts_attributes;
+SELECT * FROM autoparts_feedbacks;
+SELECT * FROM orders;
+SELECT * FROM orders_autoparts;

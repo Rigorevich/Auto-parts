@@ -11,6 +11,7 @@ import GarageIcon from '../../../assets/garage.svg?react';
 import OrderIcon from '../../../assets/order.svg?react';
 import PhoneIcon from '../../../assets/phone.svg?react';
 import LogoutIcon from '../../../assets/logout.svg?react';
+import UsersIcon from '../../../assets/users.svg?react';
 
 export {
   LogoIcon,
@@ -24,4 +25,5 @@ export {
   OrderIcon,
   ArrowRightIcon,
   LogoutIcon,
+  UsersIcon,
 };

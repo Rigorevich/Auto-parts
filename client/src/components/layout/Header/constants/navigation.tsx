@@ -11,9 +11,4 @@ export const NAVIGATION_OPTIONS = [
     label: 'Отзывы',
     route: PAGES.FEEDBACK,
   },
-  {
-    value: 'Мой гараж',
-    label: 'Мой гараж',
-    route: PAGES.GARAGE,
-  },
 ];

@@ -44,6 +44,7 @@ class AccountRepository {
     LIMIT $2 OFFSET $3`,
       [searchPattern, limit.toString(), offset.toString()],
     );
+
     const totalCountResponse = await pool.query('SELECT COUNT(*) FROM accounts');
 
     return response

@@ -3,11 +3,11 @@ import { ReactElement } from 'react';
 import {
   CartIcon,
   FavoriteIcon,
-  GarageIcon,
   LogoutIcon,
   OrderIcon,
   PhoneIcon,
   ProfileIcon,
+  UsersIcon,
 } from '../../../components/ui/Icons/Icons';
 import { PAGES } from '../../../constants/pages';
 
@@ -29,11 +29,6 @@ export const SIDEBAR_PROFILE_ORDERS: SidebarOptionType[] = [
     leftIcon: <OrderIcon />,
   },
   {
-    label: 'Мой гараж',
-    route: PAGES.GARAGE,
-    leftIcon: <GarageIcon />,
-  },
-  {
     label: 'Избранное',
     route: PAGES.FAVORITES,
     leftIcon: <FavoriteIcon />,
@@ -47,9 +42,17 @@ export const SIDEBAR_PROFILE_DATA: SidebarOptionType[] = [
     leftIcon: <ProfileIcon />,
   },
   {
-    label: 'Контактная информация',
+    label: 'Данные аккаунта',
     route: PAGES.PROFILE_CONTACTS,
     leftIcon: <PhoneIcon />,
+  },
+];
+
+export const SIDEBAR_ADMIN_TOOLS: SidebarOptionType[] = [
+  {
+    label: 'Список пользователей',
+    route: PAGES.ADMIN_PANEL,
+    leftIcon: <UsersIcon />,
   },
 ];
 
@@ -64,5 +67,6 @@ export const SIDEBAR_PROFILE_SYSTEM: SidebarOptionType[] = [
 export const SIDEBAR_OPTIONS: Record<string, SidebarOptionType[]> = {
   ['Заказы']: SIDEBAR_PROFILE_ORDERS,
   ['Мой аккаунт']: SIDEBAR_PROFILE_DATA,
+  ['Администрирование']: SIDEBAR_ADMIN_TOOLS,
   ['Система']: SIDEBAR_PROFILE_SYSTEM,
 };

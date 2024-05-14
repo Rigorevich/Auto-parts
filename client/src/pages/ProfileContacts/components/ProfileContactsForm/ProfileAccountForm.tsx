@@ -3,42 +3,36 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@mantine/core';
 
+import { AuthContext, AuthContextInterface } from '../../../../context/AuthContext';
 import { AccountClient } from '../../../../api/axios';
 import { showErrowMessage, showErrowMessageWithMessage } from '../../../../utils/showErrowMessage';
 import { showSuccessMessage } from '../../../../utils/showSuccessMessage';
-import { AuthContext, AuthContextInterface } from '../../../../context/AuthContext';
-import { profileEditSchema } from '../../../../utils/validationForms';
+import { profileAccountSchema } from '../../../../utils/validationForms';
 import { Input } from '../../../../components/ui/Input/Input';
 
-import styles from './ProfileEditForm.module.scss';
+import styles from './ProfileAccountForm.module.scss';
 
 type FormValues = {
-  name?: string;
-  surname?: string;
-  phone_number?: string;
+  email: string;
+  password?: string;
 };
 
-export const ProfileEditForm = () => {
+export const ProfileAccountForm = () => {
   const { accountData, setAccountData } = useContext(AuthContext) as AuthContextInterface;
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
-    resolver: yupResolver(profileEditSchema),
+    resolver: yupResolver(profileAccountSchema),
     defaultValues: {
-      surname: accountData?.surname ?? '',
-      name: accountData?.name ?? '',
-      phone_number: accountData?.phone_number ?? '',
+      email: accountData?.email,
     },
   });
 
   const handleSubmitForm = async (formValue: FormValues) => {
-    if (
-      formValue.name === accountData?.name &&
-      formValue.surname === accountData?.surname &&
-      formValue.phone_number === accountData?.phone_number
-    ) {
+    if (formValue.email === accountData?.email && formValue.password === accountData?.password) {
       return showErrowMessageWithMessage('Новые данные совпадают с текущими');
     }
 
@@ -48,6 +42,7 @@ export const ProfileEditForm = () => {
       });
 
       setAccountData(updatedAccount.data.result);
+      setValue('password', '');
       showSuccessMessage('Данные успешно обновлены');
     } catch (error) {
       showErrowMessage(error);
@@ -56,42 +51,34 @@ export const ProfileEditForm = () => {
 
   return (
     <form
-      className={styles.profileEditForm}
+      className={styles.profileContactsForm}
       onSubmit={handleSubmit(handleSubmitForm)}
     >
-      <h3 className={styles.profileEditForm__title}>Персональные данные</h3>
+      <h3 className={styles.profileContactsForm__title}>Данные для входа в аккаунт</h3>
       <Input
-        name="surname"
-        label="Фамилия"
+        name="email"
+        label="Электронная почта"
         autoComplete="off"
-        placeholder="Введите вашу фамилию"
+        placeholder="Введите вашу электронную почту"
         register={register}
-        status={errors.surname && 'error'}
-        description={errors?.surname?.message}
+        status={errors.email && 'error'}
+        description={errors?.email?.message}
       />
       <Input
-        name="name"
-        label="Имя"
+        type="password"
+        name="password"
+        label="Пароль"
         autoComplete="off"
-        placeholder="Введите ваше имя"
+        placeholder="Введите новый пароль"
         register={register}
-        status={errors.name && 'error'}
-        description={errors?.name?.message}
-      />
-      <Input
-        name="phone_number"
-        label="Номер телефона"
-        autoComplete="off"
-        placeholder="Введите ваш номер телефона"
-        register={register}
-        status={errors.phone_number && 'error'}
-        description={errors?.phone_number?.message}
+        status={errors.email && 'error'}
+        description={errors?.email?.message}
       />
       <Button
         type="submit"
         color="blue"
         size="md"
-        className={styles.profileEditForm__submit}
+        className={styles.profileContactsForm__submit}
         disabled={isSubmitting}
       >
         Сохранить

@@ -12,7 +12,7 @@ import { signUpSchema } from '../../utils/validationForms';
 import styles from './SignIn.module.scss';
 
 export type FormValues = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -43,13 +43,13 @@ const SignIn = () => {
         >
           <Input
             type="text"
-            name="username"
+            name="email"
             label="Имя пользователя"
             placeholder="Введите имя пользователя"
             register={register}
             autoComplete="off"
-            status={errors.username && 'error'}
-            description={errors?.username?.message}
+            status={errors.email && 'error'}
+            description={errors?.email?.message}
             className={styles.signin__username_input}
           />
           <Input

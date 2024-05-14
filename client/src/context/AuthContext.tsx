@@ -1,7 +1,8 @@
-import { createContext, ReactNode, useState, useEffect } from 'react';
+import { createContext, ReactNode, useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { LoadingOverlay } from '@mantine/core';
 import type { AxiosResponse } from 'axios';
 
-import { AuthClient, ResourceClient, AuthResponse, AuthData } from '../api/axios';
+import { AuthClient, AuthResponse, AuthData, Account } from '../api/axios';
 import { api_config } from '../api/api_config';
 import { showErrowMessage } from '../utils/showErrowMessage';
 import { showSuccessMessage } from '../utils/showSuccessMessage';
@@ -12,42 +13,17 @@ export const AuthContext = createContext({});
 export interface AuthContextInterface {
   isAppLoaded: boolean;
   isUserLogged: boolean;
-  data: any;
-  handleFetchProtected: () => void;
+  accountData: Account | null;
+  setAccountData: Dispatch<SetStateAction<Account | null>>;
   handleLogOut: () => void;
   handleSignUp: (data: AuthData) => void;
   handleSignIn: (data: AuthData) => void;
 }
 
-ResourceClient.interceptors.request.use(
-  (config) => {
-    const accessToken = inMemoryJWT.getToken();
-
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  }
-);
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [isUserLogged, setIsUserLogged] = useState(false);
-  const [data, setData] = useState({});
-
-  const handleFetchProtected = async () => {
-    try {
-      const { data } = await ResourceClient.get('/');
-
-      setData(data);
-    } catch (error) {
-      showErrowMessage(error);
-    }
-  };
+  const [accountData, setAccountData] = useState<Account | null>(null);
 
   const handleLogOut = async () => {
     try {
@@ -55,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setIsUserLogged(false);
       inMemoryJWT.deleteToken();
-      setData({});
+      setAccountData(null);
       showSuccessMessage('Вы успешно вышли из аккаунта!');
     } catch (error) {
       showErrowMessage(error);
@@ -66,10 +42,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await AuthClient.post('/signup', data);
 
-      const { accessToken, accessTokenExpiration } = response.data as AuthResponse;
+      const { accessToken, accessTokenExpiration, accountData } = response.data as AuthResponse;
 
       inMemoryJWT.setToken(accessToken, accessTokenExpiration);
       setIsUserLogged(true);
+      setAccountData(accountData);
       showSuccessMessage('Вы успешно зарегистрировались!');
     } catch (error) {
       showErrowMessage(error);
@@ -79,10 +56,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await AuthClient.post('/signin', data);
 
-      const { accessToken, accessTokenExpiration } = response.data as AuthResponse;
+      const { accessToken, accessTokenExpiration, accountData } = response.data as AuthResponse;
 
       inMemoryJWT.setToken(accessToken, accessTokenExpiration);
       setIsUserLogged(true);
+      setAccountData(accountData);
       showSuccessMessage('Вы успешно авторизовались!');
     } catch (error) {
       showErrowMessage(error);
@@ -92,13 +70,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     AuthClient.post('/refresh')
       .then((res: AxiosResponse<AuthResponse>) => {
-        const { accessToken, accessTokenExpiration } = res.data;
+        const { accessToken, accessTokenExpiration, accountData } = res.data;
         inMemoryJWT.setToken(accessToken, accessTokenExpiration);
         setIsUserLogged(true);
+        setAccountData(accountData);
         setIsAppLoaded(true);
       })
       .catch(() => {
         setIsUserLogged(false);
+        setAccountData(null);
         setIsAppLoaded(true);
       });
   }, []);
@@ -120,9 +100,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ data, handleSignUp, handleFetchProtected, handleSignIn, handleLogOut, isAppLoaded, isUserLogged }}
+      value={{ accountData, setAccountData, handleSignUp, handleSignIn, handleLogOut, isAppLoaded, isUserLogged }}
     >
-      {isAppLoaded ? children : 'Loading...'}
+      {isAppLoaded ? (
+        children
+      ) : (
+        <LoadingOverlay
+          visible
+          zIndex={1000}
+          overlayProps={{ radius: 'md' }}
+        />
+      )}
     </AuthContext.Provider>
   );
 };
