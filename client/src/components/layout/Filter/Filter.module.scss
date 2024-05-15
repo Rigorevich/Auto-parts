@@ -1,0 +1,30 @@
+@import '../../../styles/mixins';
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+
+  &__title {
+    @include typography-allcaps;
+
+    text-align: center;
+    font-size: 28px;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-upper);
+  }
+
+  &__select {
+    flex: 1;
+  }
+}

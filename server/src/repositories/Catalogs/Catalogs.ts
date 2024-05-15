@@ -14,19 +14,19 @@ class CatalogsRepository {
     return response ? response.rows[0] : null;
   }
 
-  static async createCategory(name: string, imagePath: string): Promise<Category> {
+  static async createCategory(name: string, imageName: string): Promise<Category> {
     const response = await pool.query(
       'INSERT INTO categories (name, image_path) VALUES ($1, $2) RETURNING *',
-      [name, imagePath],
+      [name, imageName],
     );
 
     return response ? response.rows[0] : null;
   }
 
-  static async updateCategory(id: number, name: string, imagePath: string): Promise<Category> {
+  static async updateCategory(id: number, name: string, imageName: string): Promise<Category> {
     const response = await pool.query(
       'UPDATE categories SET name = $1, image_path = $2 WHERE id = $3 RETURNING *',
-      [name, imagePath, `${id}`],
+      [name, imageName, `${id}`],
     );
 
     return response ? response.rows[0] : null;

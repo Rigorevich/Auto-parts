@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import { Forbidden, Unauthorized } from '../../utils/Errors';
 import type { IGenerateToken } from './types';
+import { Role } from '../../types/Account';
 
 dotenv.config();
 
@@ -22,6 +23,24 @@ class TokenService {
 
   static async verifyRefreshToken(refreshToken: string) {
     return await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+  }
+
+  static async checkRole(req: any, res: Response, next: NextFunction) {
+    const authHeader = req.headers.authorization;
+
+    const token = authHeader?.split(' ')?.[1];
+
+    try {
+      const user: any = await TokenService.verifyAccessToken(token);
+
+      if (user.role !== Role.ADMIN) {
+        next(new Forbidden('Недостаточно прав'));
+      }
+    } catch (error) {
+      return next(new Forbidden(error));
+    }
+
+    next();
   }
 
   static async checkAccess(req: any, res: Response, next: NextFunction) {

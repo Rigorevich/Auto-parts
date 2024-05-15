@@ -12,9 +12,13 @@ import OrderIcon from '../../../assets/order.svg?react';
 import PhoneIcon from '../../../assets/phone.svg?react';
 import LogoutIcon from '../../../assets/logout.svg?react';
 import UsersIcon from '../../../assets/users.svg?react';
+import PlusIcon from '../../../assets/plus.svg?react';
+import CrossIcon from '../../../assets/cross.svg?react';
 
 export {
+  CrossIcon,
   LogoIcon,
+  PlusIcon,
   PhoneIcon,
   CartIcon,
   FavoriteIcon,

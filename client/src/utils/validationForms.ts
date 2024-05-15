@@ -30,3 +30,8 @@ export const profileAccountSchema = Yup.object({
     .min(3, 'Пароль слишком короткий - минимум 3 символа')
     .max(50, 'Максимальная длина - 50 символов'),
 });
+
+export const catalogSchema = Yup.object({
+  name: Yup.string().required('Поле обязательно!').max(35, 'Максимальная длина - 35 символов'),
+  image: Yup.mixed().nullable().required('Файл обязателен!'),
+});

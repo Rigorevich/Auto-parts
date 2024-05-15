@@ -1,12 +1,16 @@
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
 import dotenv from 'dotenv';
 import Fingerprint from 'express-fingerprint';
 
 import AuthRootRouter from './src/routers/Auth';
 import AccountRootRouter from './src/routers/Account';
-import TokenService from './src/services/Auth/Token';
+import CategoryRootRouter from './src/routers/Categories';
+import SubcategoryRootRouter from './src/routers/Subcategories';
+import CarAttributesRootRouter from './src/routers/CarAttributes';
 
 dotenv.config();
 
@@ -17,19 +21,20 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, 'src', 'static')));
 app.use(cors({ credentials: true, origin: CLIENT_URL }));
-
 app.use(
-  Fingerprint({
-    parameters: [],
+  fileUpload({
+    tempFileDir: '/static/',
   }),
 );
+app.use(Fingerprint({ parameters: [] }));
 
 app.use('/api/auth', AuthRootRouter);
 app.use('/api/accounts', AccountRootRouter);
-app.get('/api/resource', TokenService.checkAccess, (req, res) => {
-  res.status(200).json('Добро пожаловать!' + Date.now());
-});
+app.use('/api/categories', CategoryRootRouter);
+app.use('/api/subcategories', SubcategoryRootRouter);
+app.use('/api/cars', CarAttributesRootRouter);
 
 const bootstrap = async () => {
   try {

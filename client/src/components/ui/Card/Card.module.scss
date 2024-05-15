@@ -1,0 +1,80 @@
+@import '../../../styles/mixins';
+
+.card {
+  @include button-reset;
+
+  --card-color: var(--white-color);
+  --text-color: var(--dark-color);
+  --text-hovered-color: var(--blue-color);
+  --cross-button-hovered-background: var(--dark-contrast-800-color);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  background-color: var(--card-color);
+  border-radius: var(--border-radius-medium);
+  gap: 1rem;
+  cursor: pointer;
+  width: 160px;
+  transition: 0.2s;
+
+  &:hover {
+    box-shadow: var(--shadow-bottom-level);
+
+    .card__name {
+      color: var(--text-hovered-color);
+    }
+  }
+
+  &__delete {
+    @include button-reset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    padding: 0.25rem;
+    top: 4px;
+    right: 4px;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: var(--cross-button-hovered-background);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__add {
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &__image {
+    margin: auto;
+    width: 120px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__name {
+    @include typography-subtitle-14;
+
+    height: 40px;
+    width: 100%;
+    color: var(--text-color);
+    transition: 0.2s;
+  }
+}
