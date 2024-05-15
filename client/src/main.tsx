@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom/client';
-import { StrictMode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
@@ -16,16 +15,14 @@ const queryClient = new QueryClient();
 const root = document.getElementById('root') as HTMLElement;
 
 ReactDOM.createRoot(root).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <MantineProvider>
-        <AuthProvider>
-          <ModalsProvider>
-            <SnackbarProvider />
-            <RouterProvider router={router} />
-          </ModalsProvider>
-        </AuthProvider>
-      </MantineProvider>
-    </QueryClientProvider>
-  </StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <MantineProvider>
+      <AuthProvider>
+        <ModalsProvider>
+          <SnackbarProvider />
+          <RouterProvider router={router} />
+        </ModalsProvider>
+      </AuthProvider>
+    </MantineProvider>
+  </QueryClientProvider>
 );

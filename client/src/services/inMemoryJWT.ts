@@ -6,43 +6,47 @@ export interface AuthResponse {
   accessTokenExpiration: number;
 }
 
-class inMemoryJWT {
-  private static inMemoryJWT: string | null = null;
-  private static refreshTimeoutId: NodeJS.Timeout | null = null;
+const inMemoryJWT = () => {
+  let inMemoryJWT: string | null = null;
+  let refreshTimeoutId: NodeJS.Timeout | null = null;
 
-  private static refreshToken(expiration: number) {
+  const refreshToken = (expiration: number) => {
     const timeoutTrigger = expiration - 10000;
 
-    this.refreshTimeoutId = setTimeout(() => {
+    refreshTimeoutId = setTimeout(() => {
       AuthClient.post('/refresh')
         .then((res) => {
           const { accessToken, accessTokenExpiration } = res.data;
-          this.setToken(accessToken, accessTokenExpiration);
+          setToken(accessToken, accessTokenExpiration);
         })
         .catch(console.error);
     }, timeoutTrigger);
-  }
+  };
 
-  private static abortRefreshToken() {
-    if (this.refreshTimeoutId) {
-      clearTimeout(this.refreshTimeoutId);
+  const abortRefreshToken = () => {
+    if (refreshTimeoutId) {
+      clearTimeout(refreshTimeoutId);
     }
-  }
+  };
 
-  public static getToken() {
-    return this.inMemoryJWT;
-  }
+  const getToken = () => inMemoryJWT;
 
-  public static setToken(token: string, tokenExpiration: number) {
-    this.inMemoryJWT = token;
-    this.refreshToken(tokenExpiration);
-  }
+  const setToken = (token: string, tokenExpiration: number) => {
+    inMemoryJWT = token;
+    refreshToken(tokenExpiration);
+  };
 
-  public static deleteToken() {
-    this.abortRefreshToken();
-    this.inMemoryJWT = null;
-    localStorage.setItem(api_config.LOGOUT_STORAGE_KEY, Date.now().toString());
-  }
-}
+  const deleteToken = () => {
+    inMemoryJWT = null;
+    abortRefreshToken();
+    localStorage.setItem(api_config.LOGOUT_STORAGE_KEY, `${Date.now()}`);
+  };
 
-export default inMemoryJWT;
+  return {
+    getToken,
+    setToken,
+    deleteToken,
+  };
+};
+
+export default inMemoryJWT();
