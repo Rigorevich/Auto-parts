@@ -1,25 +1,23 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, LoadingOverlay } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { useCreateCatalog } from '../../../../queries/catalogs.query';
-import { catalogSchema } from '../../../../utils/validationForms';
-import { Input } from '../../../../components/ui/Input/Input';
+import { catalogSchema } from '../../../utils/validationForms';
+import { Input } from '../../ui/Input/Input';
 
-import styles from './CreateCatalogForm.module.scss';
-
-export interface CreateCatalogFormProps {
-  onSubmit: VoidFunction;
-}
+import styles from './CatalogForm.module.scss';
 
 interface FormValues {
   name: string;
   image: any;
 }
 
-export const CreateCatalogForm: FC<CreateCatalogFormProps> = ({ onSubmit }) => {
-  const { createCatalog, isPending } = useCreateCatalog();
+export interface CatalogFormProps {
+  onSubmit: (formValue: FormValues) => void;
+}
+
+export const CatalogForm: FC<CatalogFormProps> = ({ onSubmit }) => {
   const {
     register,
     handleSubmit,
@@ -29,28 +27,20 @@ export const CreateCatalogForm: FC<CreateCatalogFormProps> = ({ onSubmit }) => {
   });
 
   const handleSubmitForm = (formValue: FormValues) => {
-    createCatalog({ name: formValue.name, image: formValue.image[0] });
-    onSubmit();
+    // createCatalog({ name: formValue.name, image: formValue.image[0] });
+    onSubmit(formValue);
   };
-
-  if (isPending) {
-    <LoadingOverlay
-      visible
-      zIndex={1000}
-      overlayProps={{ radius: 'md' }}
-    />;
-  }
 
   return (
     <form
-      className={styles.createCatalogForm}
+      className={styles.CatalogForm}
       onSubmit={handleSubmit(handleSubmitForm)}
     >
       <Input
         name="name"
-        label="Название каталога"
+        label="Название"
+        placeholder="Введите название"
         autoComplete="off"
-        placeholder="Введите название каталога"
         register={register}
         status={errors.name && 'error'}
         description={errors?.name?.message}
@@ -58,9 +48,9 @@ export const CreateCatalogForm: FC<CreateCatalogFormProps> = ({ onSubmit }) => {
       <Input
         name="image"
         type="file"
-        label="Изображение каталога"
+        label="Изображение"
+        placeholder="Выберите изображение"
         autoComplete="off"
-        placeholder="Выберите изображение каталога"
         register={register}
         status={errors.name && 'error'}
         description={errors?.image?.message as string}

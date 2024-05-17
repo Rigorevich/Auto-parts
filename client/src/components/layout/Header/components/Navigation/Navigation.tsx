@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
+import { useGetAllCategories } from '../../../../../queries/catalogs.query';
+
 import styles from './Navigation.module.scss';
 
 interface NavigationOption {
@@ -11,25 +13,31 @@ interface NavigationOption {
 }
 
 interface NavigationProps {
-  options: NavigationOption[];
+  options?: NavigationOption[];
 }
 
-export const Navigation: FC<NavigationProps> = ({ options }) => {
+export const Navigation: FC<NavigationProps> = () => {
+  const { categories } = useGetAllCategories();
+
   return (
     <nav className={styles.navigation}>
-      {options?.map(({ label, value, route }) => (
-        <NavLink
-          key={value}
-          to={route}
-          className={({ isActive }) =>
-            classNames(styles.navigation__link, {
-              [styles.active]: isActive,
-            })
-          }
-        >
-          {label}
-        </NavLink>
-      ))}
+      {categories?.map(({ id, name }) => {
+        const route = `/category/${id}`;
+
+        return (
+          <NavLink
+            key={id}
+            to={route}
+            className={({ isActive }) =>
+              classNames(styles.navigation__link, {
+                [styles.active]: isActive,
+              })
+            }
+          >
+            {name}
+          </NavLink>
+        );
+      })}
     </nav>
   );
 };

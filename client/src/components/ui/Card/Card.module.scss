@@ -16,7 +16,8 @@
   border-radius: var(--border-radius-medium);
   gap: 1rem;
   cursor: pointer;
-  width: 160px;
+  height: 190px;
+  width: 170px;
   transition: 0.2s;
 
   &:hover {
@@ -61,7 +62,7 @@
 
   &__image {
     margin: auto;
-    width: 120px;
+    width: 100px;
 
     img {
       width: 100%;

@@ -33,26 +33,27 @@ export const useGetSubcategoriesByCategoryId = (categoryId: string) => {
     refetch: refetchSubcategories,
   } = useQuery({
     queryKey: ['subcategories', categoryId],
-    queryFn: () => catalogsApi.getSubategoriesByCategoryId(categoryId),
+    queryFn: () => catalogsApi.getSubсategoriesByCategoryId(categoryId),
     refetchOnWindowFocus: false,
     retry: false,
   });
 
   return {
-    subcategories: subcategoriesData?.result.categories,
+    subcategories: subcategoriesData?.result.subcategories,
     refetchSubcategories,
     isSubcategoriesError,
     isSubcategoriesLoading,
   };
 };
 
-export const useCreateCatalog = () => {
+export const useCreateCatalog = (onSettled: VoidFunction) => {
   const {
     mutate: createCatalog,
     isPending,
     isError,
   } = useMutation({
     mutationFn: ({ name, image }: { name: string; image: File }) => catalogsApi.createCategory(name, image),
+    onSettled,
     onSuccess: () => showSuccessMessage('Категория успешно создана!'),
     onError: () => showErrowMessageWithMessage('Не удалось создать категорию!'),
   });
@@ -60,7 +61,7 @@ export const useCreateCatalog = () => {
   return { createCatalog, isPending, isError };
 };
 
-export const useCreateSubcatalog = () => {
+export const useCreateSubcatalog = (onSettled: VoidFunction) => {
   const {
     mutate: createSubcatalog,
     isPending,
@@ -68,6 +69,7 @@ export const useCreateSubcatalog = () => {
   } = useMutation({
     mutationFn: ({ categoryId, name, image }: { categoryId: string; name: string; image: File }) =>
       catalogsApi.createSubcategory(categoryId, name, image),
+    onSettled,
     onSuccess: () => showSuccessMessage('Подкатегория успешно создана!'),
     onError: () => showErrowMessageWithMessage('Не удалось создать подкатегорию!'),
   });

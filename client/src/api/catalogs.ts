@@ -50,10 +50,10 @@ const catalogsApi = {
     return data;
   },
 
-  getSubategoriesByCategoryId: async (categoryId: string) => {
-    const route = api_config.API_URL + '/categories/' + categoryId;
+  getSubсategoriesByCategoryId: async (categoryId: string) => {
+    const route = api_config.API_URL + '/subcategories/' + categoryId;
 
-    const { data } = await axiosInstance.get<{ result: { categories: Subcategory[] } }>(route);
+    const { data } = await axiosInstance.get<{ result: { subcategories: Subcategory[] } }>(route);
 
     return data;
   },

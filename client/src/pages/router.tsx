@@ -11,6 +11,7 @@ import Profile from './Profile/Profile';
 import ProfileEdit from './ProfileEdit/ProfileEdit';
 import ProfileAccount from './ProfileContacts/ProfileAccount';
 import Home from './Home/Home';
+import Category from './Category/Category';
 import Layout from './Layout/Layout';
 
 const router = createBrowserRouter([
@@ -22,6 +23,18 @@ const router = createBrowserRouter([
         path: PAGES.ROOT,
         index: true,
         element: <Home />,
+      },
+      {
+        path: PAGES.CATEGORY,
+        element: <Category />,
+      },
+      {
+        path: PAGES.AUTOPARTS,
+        element: <div>Autoparts</div>,
+      },
+      {
+        path: PAGES.AUTOPART,
+        element: <div>AUTOPART</div>,
       },
       {
         path: PAGES.SIGN_IN,

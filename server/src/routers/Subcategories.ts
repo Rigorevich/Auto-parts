@@ -16,6 +16,6 @@ router.delete(
   TokenService.checkRole,
   CatalogsController.deleteSubcategory,
 );
-router.get('/', CatalogsController.getSubcategoriesByCategoryId);
+router.get('/:id', CatalogsController.getSubcategoriesByCategoryId);
 
 export default router;

@@ -1,22 +1,22 @@
 import { useContext } from 'react';
-import { LoadingOverlay } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { modals } from '@mantine/modals';
+import { LoadingOverlay } from '@mantine/core';
 
-import { Filter } from '../../components/layout/Filter/Filter';
-import { Card, CardAddItem } from '../../components/ui/Card/Card';
-import { useCreateCatalog, useGetAllCategories } from '../../queries/catalogs.query';
+import { useCreateSubcatalog, useGetSubcategoriesByCategoryId } from '../../queries/catalogs.query';
 import { AuthContext, AuthContextInterface } from '../../context/AuthContext';
 import { CatalogForm } from '../../components/layout/Catalog/CatalogForm';
+import { Card, CardAddItem } from '../../components/ui/Card/Card';
 
-import styles from './Home.module.scss';
+import styles from './Category.module.scss';
 
 const apiUrl = import.meta.env.VITE_STATIC_API_URL;
 
-const Home = () => {
+const Category = () => {
+  const { id = '' } = useParams();
   const { accountData } = useContext(AuthContext) as AuthContextInterface;
-  const { categories, isCategoriesLoading, refetchCategories } = useGetAllCategories();
-  const { createCatalog, isPending } = useCreateCatalog(refetchCategories);
+  const { subcategories, isSubcategoriesLoading, refetchSubcategories } = useGetSubcategoriesByCategoryId(id);
+  const { createSubcatalog, isPending } = useCreateSubcatalog(refetchSubcategories);
 
   const navigate = useNavigate();
 
@@ -27,14 +27,15 @@ const Home = () => {
         <CatalogForm
           onSubmit={(formValue) => {
             modals.closeAll();
-            createCatalog({ name: formValue.name, image: formValue.image[0] });
+            createSubcatalog({ categoryId: id, name: formValue.name, image: formValue.image[0] });
+            refetchSubcategories();
           }}
         />
       ),
     });
   };
 
-  if (isCategoriesLoading || isPending) {
+  if (isSubcategoriesLoading || isPending) {
     <LoadingOverlay
       visible
       zIndex={1000}
@@ -43,22 +44,21 @@ const Home = () => {
   }
 
   return (
-    <main className={styles.home}>
-      <div className={styles.home__container}>
-        <Filter />
-        <h1 className={styles.catalog__title}>Категории автозапчастей</h1>
+    <main className={styles.category}>
+      <div className={styles.category__container}>
+        <h1 className={styles.catalog__title}>Выберите подкатегорию</h1>
         <div className={styles.catalog}>
           <div className={styles.catalog__list}>
-            {categories?.map((category) => {
-              const imagePath = `${apiUrl}/${category.image_path}`;
-              const route = `/category/${category.id}`;
+            {subcategories?.map((subcategory) => {
+              const imagePath = `${apiUrl}/${subcategory.image_path}`;
+              const route = `/subcategory/${subcategory.id}`;
 
               return (
                 <Card
-                  key={category.id}
+                  key={subcategory.id}
                   onClick={() => navigate(route)}
                   option={{
-                    name: category.name,
+                    name: subcategory.name,
                     image: imagePath,
                   }}
                 />
@@ -72,4 +72,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Category;

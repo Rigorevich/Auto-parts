@@ -15,7 +15,7 @@ class CatalogsController {
   }
 
   static async getSubcategoriesByCategoryId(req: Request, res: Response) {
-    const { categoryId } = req.params;
+    const { id: categoryId } = req.params;
 
     try {
       const subcategories = await CatalogsService.getSubcategoriesByCategoryId(Number(categoryId));
@@ -54,6 +54,8 @@ class CatalogsController {
   static async createSubcategory(req: Request & { files: any }, res: Response) {
     const { categoryId, name } = req.body;
     const { image } = req.files;
+
+    console.log(categoryId, name, image);
 
     try {
       const category = await CatalogsService.createSubcategory(categoryId, name, image);
