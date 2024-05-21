@@ -1,9 +1,9 @@
 import pool from '../../../db';
-import { CarBrand, CarModel, CarGenaration, CarModification, CarEngine } from '../../types/Car';
+import { CarBrand, CarModel, CarGenaration, CarModification, CarEngine, CarBodyTypes } from '../../types/Car';
 
 class CarAttributesRepository {
   static async getAllBrands(): Promise<CarBrand[]> {
-    const response = await pool.query('SELECT * FROM brands');
+    const response = await pool.query('SELECT * FROM car_brands');
 
     return response ? response.rows : null;
   }
@@ -26,10 +26,36 @@ class CarAttributesRepository {
     return response ? response.rows : null;
   }
 
-  static async getModificationsByIds(generationId: number, engineId: number): Promise<CarModification[]> {
+  static async getAllBodyTypes(): Promise<CarBodyTypes[]> {
+    const response = await pool.query('SELECT * FROM body_types');
+
+    return response ? response.rows : null;
+  }
+
+  static async getBodyTypesByGenerationId(generationId: number): Promise<CarBodyTypes[]> {
+    const response = await pool.query('SELECT body_type FROM modifications WHERE generation_id = $1', [
+      generationId,
+    ]);
+
+    return response ? response.rows : null;
+  }
+
+  static async getEnginesByGenerationId(generationId: number): Promise<CarEngine[]> {
+    const response = await pool.query('SELECT engine FROM modifications WHERE generation_id = $1', [
+      generationId,
+    ]);
+
+    return response ? response.rows : null;
+  }
+
+  static async getModificationsByIds(
+    generationId: number,
+    engine: string,
+    bodyType: string,
+  ): Promise<CarModification[]> {
     const response = await pool.query(
-      'SELECT * FROM modifications WHERE engine_id = $1 AND generation_id = $2',
-      [engineId, generationId],
+      'SELECT * FROM modifications WHERE engine = $1 AND generation_id = $2 AND body_type = $3',
+      [engine, generationId.toString(), bodyType],
     );
 
     return response ? response.rows : null;

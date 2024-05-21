@@ -41,7 +41,11 @@ export interface CarGenaration {
 
 export interface CarEngine {
   id: string;
-  fuel_type: FuelType;
+  name: string;
+}
+
+export interface CarBodyTypes {
+  id: string;
   name: string;
 }
 

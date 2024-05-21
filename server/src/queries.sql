@@ -37,23 +37,29 @@ CREATE TABLE models (
 CREATE TABLE generations (
     id SERIAL PRIMARY KEY,
 	model_id INT NOT NULL REFERENCES models(id) ON DELETE CASCADE,
-    name VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
 	year_start SMALLINT,
 	year_end SMALLINT
 );
 
 CREATE TABLE engines (
     id SERIAL PRIMARY KEY,
-	fuel_type SMALLINT NOT NULL,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE body_types (
+    id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE modifications (
     id SERIAL PRIMARY KEY,
-	body_type SMALLINT NOT NULL,
+	body_type VARCHAR(255),
 	generation_id INT NOT NULL REFERENCES generations(id) ON DELETE CASCADE,
-	engine_id INT NOT NULL REFERENCES engines(id) ON DELETE CASCADE
+	engine VARCHAR(255),
+    name VARCHAR(255) NOT NULL
 );
+
 
 CREATE TABLE brands (
     id SERIAL PRIMARY KEY,

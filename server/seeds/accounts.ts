@@ -31,8 +31,8 @@ export function createRandomUser(): Account {
     email: faker.internet.email(),
     phone_number: faker.phone.number(),
     password: bcrypt.hashSync(faker.internet.password(), 10),
-    role: faker.number.int({ min: 1, max: 3 }),
-    status: faker.number.int({ min: 1, max: 3 }),
+    role: faker.number.int({ min: 1, max: 2 }),
+    status: faker.number.int({ min: 1, max: 2 }),
   };
 }
 

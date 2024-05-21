@@ -38,9 +38,11 @@ class CarAttributesController {
     }
   }
 
-  static async getCarEngines(req: Request, res: Response) {
+  static async getCarEnginesByGenerationId(req: Request, res: Response) {
+    const { generationId } = req.query;
+
     try {
-      const engines = await CarAttributesService.getCarEngines();
+      const engines = await CarAttributesService.getCarEnginesByGenerationId(Number(generationId));
 
       return res.status(200).json({ result: { engines } });
     } catch (error) {
@@ -48,13 +50,26 @@ class CarAttributesController {
     }
   }
 
+  static async getCarBodyTypesByGenerationId(req: Request, res: Response) {
+    const { generationId } = req.query;
+
+    try {
+      const bodyTypes = await CarAttributesService.getCarBodyTypesByGenerationId(Number(generationId));
+
+      return res.status(200).json({ result: { bodyTypes } });
+    } catch (error) {
+      return ErrorsUtils.catchError(res, error);
+    }
+  }
+
   static async getCarModifications(req: Request, res: Response) {
-    const { engineId, generationId } = req.query;
+    const { generationId, engine, bodyType } = req.query;
 
     try {
       const modifications = await CarAttributesService.getCarModifications(
         Number(generationId),
-        Number(engineId),
+        engine.toString(),
+        bodyType.toString(),
       );
 
       return res.status(200).json({ result: { modifications } });
