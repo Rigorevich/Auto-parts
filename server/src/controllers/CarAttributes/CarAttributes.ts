@@ -62,6 +62,18 @@ class CarAttributesController {
     }
   }
 
+  static async getCarByModificationId(req: Request, res: Response) {
+    const { modificationId } = req.query;
+
+    try {
+      const car = await CarAttributesService.getCarByModificationId(Number(modificationId));
+
+      return res.status(200).json({ result: { car } });
+    } catch (error) {
+      return ErrorsUtils.catchError(res, error);
+    }
+  }
+
   static async getCarModifications(req: Request, res: Response) {
     const { generationId, engine, bodyType } = req.query;
 

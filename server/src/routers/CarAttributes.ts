@@ -9,5 +9,6 @@ router.get('/generations', CarAttributesController.getCarGenerationsByModel);
 router.get('/engines', CarAttributesController.getCarEnginesByGenerationId);
 router.get('/body-types', CarAttributesController.getCarBodyTypesByGenerationId);
 router.get('/modifications', CarAttributesController.getCarModifications);
+router.get('/car', CarAttributesController.getCarByModificationId);
 
 export default router;

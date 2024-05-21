@@ -48,6 +48,30 @@ class CarAttributesRepository {
     return response ? response.rows : null;
   }
 
+  static async getCarBrandById(brandId: number): Promise<CarBrand> {
+    const response = await pool.query('SELECT * FROM car_brands WHERE id = $1', [brandId]);
+
+    return response ? response.rows[0] : null;
+  }
+
+  static async getModelById(modelId: number): Promise<CarModel> {
+    const response = await pool.query('SELECT * FROM models WHERE id = $1', [modelId]);
+
+    return response ? response.rows[0] : null;
+  }
+
+  static async getGenerationById(generationId: number): Promise<CarGenaration> {
+    const response = await pool.query('SELECT * FROM generations WHERE id = $1', [generationId]);
+
+    return response ? response.rows[0] : null;
+  }
+
+  static async getModificationById(modificationId: number): Promise<CarModification> {
+    const response = await pool.query('SELECT * FROM modifications WHERE id = $1', [modificationId]);
+
+    return response ? response.rows[0] : null;
+  }
+
   static async getModificationsByIds(
     generationId: number,
     engine: string,

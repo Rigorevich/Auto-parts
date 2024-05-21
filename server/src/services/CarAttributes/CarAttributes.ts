@@ -96,6 +96,43 @@ class CarAttributesService {
     return uniqueBodyTypes;
   }
 
+  static async getCarByModificationId(modificationId) {
+    if (!modificationId) {
+      throw new BadRequest('Не достаточно данных для получения модификаций автомобилей!');
+    }
+
+    const modification = await CarAttributesRepository.getModificationById(modificationId);
+
+    if (!modification) {
+      throw new NotFound('Не удалось найти модификацию авто по указанным параметрам!');
+    }
+
+    const generation = await CarAttributesRepository.getGenerationById(modification.generation_id);
+
+    if (!generation) {
+      throw new NotFound('Не удалось найти поколение авто по указанным параметрам!');
+    }
+
+    const model = await CarAttributesRepository.getModelById(generation.model_id);
+
+    if (!model) {
+      throw new NotFound('Не удалось найти модель авто по указанным параметрам!');
+    }
+
+    const brand = await CarAttributesRepository.getCarBrandById(model.brand_id);
+
+    if (!brand) {
+      throw new NotFound('Не удалось найти марку авто по указанным параметрам!');
+    }
+
+    return {
+      brand,
+      model,
+      generation,
+      modification,
+    };
+  }
+
   static async getCarModifications(generation_id: number, engine: string, body_type: string) {
     if (!generation_id || !engine || !body_type) {
       throw new BadRequest('Не достаточно данных для получения модификаций автомобилей!');
