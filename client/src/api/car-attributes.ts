@@ -22,17 +22,26 @@ export interface CarGenaration {
 }
 
 export interface CarEngine {
-  id: string;
-  fuel_type: number;
-  name: string;
+  engine: string;
+}
+
+export interface CarBodyType {
+  body_type: string;
 }
 
 export interface CarModification {
   id: string;
   name: string;
-  body_type: number;
-  engine_id: string;
+  body_type: string;
+  engine: string;
   generation_id: number;
+}
+
+export interface Car {
+  brand: CarBrand;
+  model: CarModel;
+  generation: CarGenaration;
+  modification: CarModification;
 }
 
 const carAttributesApi = {
@@ -64,19 +73,41 @@ const carAttributesApi = {
     return data;
   },
 
-  getEngines: async () => {
+  getEnginesByGenerationId: async (generationId: string) => {
     const route = api_config.API_URL + '/cars/engines/';
 
-    const { data } = await axiosInstance.get<{ result: { engines: CarEngine[] } }>(route);
+    const { data } = await axiosInstance.get<{ result: { engines: CarEngine[] } }>(route, {
+      params: { generationId },
+    });
 
     return data;
   },
 
-  getModifications: async (generationId: string, engineId: string) => {
+  getBodyTypesByGenerationId: async (generationId: string) => {
+    const route = api_config.API_URL + '/cars/body-types/';
+
+    const { data } = await axiosInstance.get<{ result: { bodyTypes: CarBodyType[] } }>(route, {
+      params: { generationId },
+    });
+
+    return data;
+  },
+
+  getModifications: async (generationId: string, engine: string, bodyType: string) => {
     const route = api_config.API_URL + '/cars/modifications/';
 
     const { data } = await axiosInstance.get<{ result: { modifications: CarModification[] } }>(route, {
-      params: { generationId, engineId },
+      params: { generationId, engine, bodyType },
+    });
+
+    return data;
+  },
+
+  getCarByModificationId: async (modificationId: string) => {
+    const route = api_config.API_URL + '/cars/car';
+
+    const { data } = await axiosInstance.get<{ result: { car: Car } }>(route, {
+      params: { modificationId },
     });
 
     return data;

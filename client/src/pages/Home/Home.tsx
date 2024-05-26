@@ -3,6 +3,7 @@ import { LoadingOverlay } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { modals } from '@mantine/modals';
 
+import { Car } from '../../components/layout/Car/Car';
 import { Filter } from '../../components/layout/Filter/Filter';
 import { Card, CardAddItem } from '../../components/ui/Card/Card';
 import { useCreateCatalog, useGetAllCategories } from '../../queries/catalogs.query';
@@ -14,15 +15,18 @@ import styles from './Home.module.scss';
 const apiUrl = import.meta.env.VITE_STATIC_API_URL;
 
 const Home = () => {
-  const { accountData } = useContext(AuthContext) as AuthContextInterface;
+  const { accountData, cars } = useContext(AuthContext) as AuthContextInterface;
   const { categories, isCategoriesLoading, refetchCategories } = useGetAllCategories();
   const { createCatalog, isPending } = useCreateCatalog(refetchCategories);
+
+  const activeCar = cars?.find((car) => car.active);
 
   const navigate = useNavigate();
 
   const handleAddCatalog = () => {
     modals.open({
       centered: true,
+      size: 'lg',
       children: (
         <CatalogForm
           onSubmit={(formValue) => {
@@ -45,7 +49,7 @@ const Home = () => {
   return (
     <main className={styles.home}>
       <div className={styles.home__container}>
-        <Filter />
+        {activeCar ? <Car modificationId={activeCar.id} /> : <Filter />}
         <h1 className={styles.catalog__title}>Категории автозапчастей</h1>
         <div className={styles.catalog}>
           <div className={styles.catalog__list}>
@@ -57,6 +61,7 @@ const Home = () => {
                 <Card
                   key={category.id}
                   onClick={() => navigate(route)}
+                  className={styles.catalog__card}
                   option={{
                     name: category.name,
                     image: imagePath,

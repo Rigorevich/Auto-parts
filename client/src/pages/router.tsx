@@ -13,6 +13,10 @@ import ProfileAccount from './ProfileContacts/ProfileAccount';
 import Home from './Home/Home';
 import Category from './Category/Category';
 import Layout from './Layout/Layout';
+import Autoparts from './Autoparts/Autoparts';
+import Autopart from './Autopart/Autopart';
+import MyCars from './MyCars/MyCars';
+import AdminAutopart from './AdminAutopart/AdminAutopart';
 
 const router = createBrowserRouter([
   {
@@ -29,12 +33,16 @@ const router = createBrowserRouter([
         element: <Category />,
       },
       {
+        path: PAGES.ADMIN_AUTOPART,
+        element: <AdminAutopart />,
+      },
+      {
         path: PAGES.AUTOPARTS,
-        element: <div>Autoparts</div>,
+        element: <Autoparts />,
       },
       {
         path: PAGES.AUTOPART,
-        element: <div>AUTOPART</div>,
+        element: <Autopart />,
       },
       {
         path: PAGES.SIGN_IN,
@@ -66,6 +74,10 @@ const router = createBrowserRouter([
                 element: <AdminPanel />,
               },
               {
+                path: PAGES.MY_CARS,
+                element: <MyCars />,
+              },
+              {
                 path: PAGES.CART,
                 element: <div>Cart</div>,
               },
@@ -82,7 +94,7 @@ const router = createBrowserRouter([
                 element: <ProfileEdit />,
               },
               {
-                path: PAGES.PROFILE_CONTACTS,
+                path: PAGES.ACCOUNT_EDIT,
                 element: <ProfileAccount />,
               },
             ],

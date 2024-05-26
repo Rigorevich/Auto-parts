@@ -14,16 +14,29 @@ export interface AuthContextInterface {
   isAppLoaded: boolean;
   isUserLogged: boolean;
   accountData: Account | null;
+  cars: SavedCar[];
+  setCars: Dispatch<SetStateAction<SavedCar[]>>;
   setAccountData: Dispatch<SetStateAction<Account | null>>;
   handleLogOut: () => void;
   handleSignUp: (data: AuthData) => void;
   handleSignIn: (data: AuthData) => void;
 }
 
+export interface SavedCar {
+  id: string;
+  active: boolean;
+}
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [accountData, setAccountData] = useState<Account | null>(null);
+
+  const [cars, setCars] = useState<SavedCar[]>(() => {
+    const savedCars = localStorage.getItem('modifications');
+
+    return savedCars ? JSON.parse(savedCars) : [];
+  });
 
   const handleLogOut = async () => {
     try {
@@ -100,7 +113,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ accountData, setAccountData, handleSignUp, handleSignIn, handleLogOut, isAppLoaded, isUserLogged }}
+      value={{
+        accountData,
+        setAccountData,
+        cars,
+        setCars,
+        handleSignUp,
+        handleSignIn,
+        handleLogOut,
+        isAppLoaded,
+        isUserLogged,
+      }}
     >
       {isAppLoaded ? (
         children

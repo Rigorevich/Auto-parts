@@ -23,6 +23,7 @@ const Category = () => {
   const handleAddCatalog = () => {
     modals.open({
       centered: true,
+      size: 'lg',
       children: (
         <CatalogForm
           onSubmit={(formValue) => {
@@ -51,12 +52,18 @@ const Category = () => {
           <div className={styles.catalog__list}>
             {subcategories?.map((subcategory) => {
               const imagePath = `${apiUrl}/${subcategory.image_path}`;
-              const route = `/subcategory/${subcategory.id}`;
+              const route = `/autoparts`;
 
               return (
                 <Card
                   key={subcategory.id}
-                  onClick={() => navigate(route)}
+                  className={styles.catalog__card}
+                  onClick={() =>
+                    navigate({
+                      pathname: route,
+                      search: `?categoryId=${id}&subcategoryId=${subcategory.id}`,
+                    })
+                  }
                   option={{
                     name: subcategory.name,
                     image: imagePath,

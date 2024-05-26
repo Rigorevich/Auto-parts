@@ -5,7 +5,6 @@ import { LogoIcon } from '../../ui/Icons/Icons';
 import { AuthContext, AuthContextInterface } from '../../../context/AuthContext';
 import { PAGES } from '../../../constants/pages';
 
-import { NAVIGATION_OPTIONS } from './constants/navigation';
 import { Navigation } from './components/Navigation/Navigation';
 import { Controller } from './components/Controller/Controller';
 import { SearchPanel } from './components/SearchPanel/SearchPanel';
@@ -27,9 +26,7 @@ export const Header = () => {
           <SearchPanel onSearch={handleSearch} />
           <Controller />
         </div>
-        <div className={styles.header__navigation}>
-          <Navigation options={NAVIGATION_OPTIONS} />
-        </div>
+        <Navigation />
       </div>
     </header>
   );

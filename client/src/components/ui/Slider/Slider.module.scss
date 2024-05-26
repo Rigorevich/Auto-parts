@@ -1,0 +1,24 @@
+.swiper {
+  width: 500px;
+
+  .arrow {
+    &::before {
+      color: var(--dark-color);
+      font-size: 22px;
+    }
+  }
+
+  .slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      max-height: 400px;
+      object-fit: cover;
+    }
+  }
+}

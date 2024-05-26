@@ -44,8 +44,8 @@ const SignUp = () => {
           <Input
             type="text"
             name="email"
-            label="Имя пользователя"
-            placeholder="Введите имя пользователя"
+            label="Электронная почта"
+            placeholder="Введите электронную почту пользователя"
             register={register}
             autoComplete="off"
             status={errors.email && 'error'}

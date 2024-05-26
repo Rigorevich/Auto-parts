@@ -1,0 +1,78 @@
+@import '../../../../../styles/mixins';
+
+.attributes {
+  &__title {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--dark-contrast-500-color);
+  }
+
+  &__block {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex: 1;
+
+    .attributes {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .addAttribute {
+        align-self: flex-start;
+      }
+
+      .attributes__save {
+        display: flex;
+        gap: 1.5rem;
+
+        .type,
+        .value {
+          flex: 1;
+        }
+      }
+
+      .attributes__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .attributes__item {
+          @include typography-text;
+
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          padding: 5px 0;
+          font-size: var(--font-size-md);
+          color: var(--dark-contrast-200-color);
+
+          .dots {
+            flex: 1;
+            border-bottom: var(--border-width-small) dotted var(--dark-contrast-300-color);
+            margin: 0 1rem;
+          }
+
+          .attributeValue {
+            color: var(--dark-contrast-100-color);
+          }
+        }
+      }
+    }
+
+    .images {
+      flex: 1;
+
+      .uploadButton {
+        margin-top: 1rem;
+        align-self: flex-start;
+        margin-right: 1rem;
+      }
+    }
+
+    .attributes {
+      flex: 1;
+    }
+  }
+}

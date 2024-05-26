@@ -2,11 +2,12 @@
 
 .navigation {
   --link-color: var(--dark-color);
-  --link-hovered-color: var(--blue-color);
+  --link-hovered-color: orange;
 
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
   gap: 4rem;
 
   &__link {
@@ -23,6 +24,10 @@
 
     &.active {
       font-weight: var(--font-weight-bold);
+
+      &:hover {
+        color: var(--link-color);
+      }
     }
   }
 }

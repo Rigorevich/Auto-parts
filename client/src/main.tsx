@@ -5,10 +5,12 @@ import { SnackbarProvider } from 'notistack';
 import { MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 
-import router from './pages/router';
 import { AuthProvider } from './context/AuthContext';
+import router from './pages/router';
 
 import './styles/global.scss';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const queryClient = new QueryClient();
 

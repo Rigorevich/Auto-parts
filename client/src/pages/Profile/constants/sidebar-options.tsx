@@ -5,9 +5,10 @@ import {
   FavoriteIcon,
   LogoutIcon,
   OrderIcon,
-  PhoneIcon,
   ProfileIcon,
   UsersIcon,
+  GarageIcon,
+  AdminToolsIcon,
 } from '../../../components/ui/Icons/Icons';
 import { PAGES } from '../../../constants/pages';
 
@@ -33,6 +34,11 @@ export const SIDEBAR_PROFILE_ORDERS: SidebarOptionType[] = [
     route: PAGES.FAVORITES,
     leftIcon: <FavoriteIcon />,
   },
+  {
+    label: 'Мои автомобили',
+    route: PAGES.MY_CARS,
+    leftIcon: <GarageIcon />,
+  },
 ];
 
 export const SIDEBAR_PROFILE_DATA: SidebarOptionType[] = [
@@ -42,9 +48,9 @@ export const SIDEBAR_PROFILE_DATA: SidebarOptionType[] = [
     leftIcon: <ProfileIcon />,
   },
   {
-    label: 'Данные аккаунта',
-    route: PAGES.PROFILE_CONTACTS,
-    leftIcon: <PhoneIcon />,
+    label: 'Данные для входа',
+    route: PAGES.ACCOUNT_EDIT,
+    leftIcon: <AdminToolsIcon />,
   },
 ];
 

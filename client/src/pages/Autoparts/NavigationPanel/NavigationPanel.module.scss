@@ -1,0 +1,17 @@
+.navigationPanel {
+  --active-card-shadow: var(--shadow-focus-highlight);
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+
+  &__card {
+    height: 150px;
+    width: 150px;
+
+    &.active {
+      box-shadow: var(--active-card-shadow);
+    }
+  }
+}

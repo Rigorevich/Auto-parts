@@ -18,7 +18,7 @@ export const SearchPanel: FC<SearchPanelProps> = ({ onSearch }) => {
         type="search"
         size="md"
         radius="xs"
-        placeholder="Найти запчасти"
+        placeholder="Поиск по названию запчасти"
         className={styles.search_panel__input}
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}

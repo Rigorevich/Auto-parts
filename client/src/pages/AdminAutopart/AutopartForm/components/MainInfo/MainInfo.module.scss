@@ -1,0 +1,36 @@
+.mainInfo {
+  &__title {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--dark-contrast-500-color);
+  }
+
+  &__inputs {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 5rem;
+    flex: 1;
+
+    .info,
+    .description {
+      flex: 1;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .orderInfo {
+        display: flex;
+        gap: 2rem;
+
+        .quantity,
+        .discount {
+          flex: 1;
+        }
+      }
+    }
+  }
+}

@@ -15,6 +15,7 @@ export interface CardOptions {
 export interface CardProps {
   option: CardOptions;
   onClick: VoidFunction;
+  className: string;
 }
 
 export interface CardAddItemProps {
@@ -32,10 +33,10 @@ export const CardAddItem: FC<CardAddItemProps> = ({ onAdd }) => {
   );
 };
 
-export const Card: FC<CardProps> = ({ option, onClick }) => {
+export const Card: FC<CardProps> = ({ className, option, onClick }) => {
   return (
     <button
-      className={styles.card}
+      className={classNames(styles.card, className)}
       onClick={onClick}
     >
       <div className={styles.card__image}>

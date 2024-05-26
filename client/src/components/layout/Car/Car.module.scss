@@ -1,0 +1,61 @@
+@import '../../../styles/mixins';
+
+.modification {
+  --modification-shadow: var(--shadow-bottom-level);
+
+  display: flex;
+  align-items: center;
+  justify-content: spa;
+  width: 100%;
+  height: 100px;
+  gap: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--modification-shadow);
+  border-radius: var(--border-radius-medium);
+
+  .modification__left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-right: 1.5rem;
+    border-right: 1px solid black;
+
+    .modification__icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    .modification__section {
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+}
+
+.modification__middle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .modification__image {
+    width: 150px;
+  }
+
+  .modification__description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .modification__name {
+    @include typography-allcaps;
+  }
+
+  .modification__info {
+    @include typography-text;
+  }
+}
+
+.modification__right {
+}

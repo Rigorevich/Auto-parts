@@ -1,5 +1,13 @@
-.createCatalogForm {
+.сatalogForm {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  .image {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    border-radius: 6px;
+    object-fit: contain;
+  }
 }

@@ -14,8 +14,12 @@ import LogoutIcon from '../../../assets/logout.svg?react';
 import UsersIcon from '../../../assets/users.svg?react';
 import PlusIcon from '../../../assets/plus.svg?react';
 import CrossIcon from '../../../assets/cross.svg?react';
+import ShoppingCartIcon from '../../../assets/shopping-cart.svg?react';
+import NoCarIcon from '../../../assets/no-car.svg?react';
 
 export {
+  ShoppingCartIcon,
+  NoCarIcon,
   CrossIcon,
   LogoIcon,
   PlusIcon,

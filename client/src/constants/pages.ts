@@ -11,6 +11,8 @@ export enum PAGES {
   ADMIN_PANEL = '/profile/admin-panel',
   ORDERS = '/profile/orders',
   CART = '/profile/cart',
+  MY_CARS = '/profile/my-cars',
   PROFILE_EDIT = '/profile/edit',
-  PROFILE_CONTACTS = '/profile/contacts',
+  ACCOUNT_EDIT = '/profile/account',
+  ADMIN_AUTOPART = '/admin/autopart',
 }

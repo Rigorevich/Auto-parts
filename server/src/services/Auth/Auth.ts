@@ -108,15 +108,15 @@ class AuthService {
       throw new Forbidden(error);
     }
 
-    const { id, role, email, password, status } = await AccountRepository.getAccountData(payload.email);
+    const accountData = await AccountRepository.getAccountData(payload.email);
 
-    const actualPayload = { id, email, role };
+    const actualPayload = { id: accountData.id, email: accountData.email, role: accountData.role };
 
     const accessToken = await TokenService.generateAccessToken(actualPayload);
     const refreshToken = await TokenService.generateRefreshToken(actualPayload);
 
     await RefreshSessionsRepository.createRefreshSession({
-      id,
+      id: accountData.id,
       refreshToken,
       fingerprint,
     });
@@ -125,7 +125,7 @@ class AuthService {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
-      data: { id, role, email, password, status },
+      data: accountData,
     };
   }
 }

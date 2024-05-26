@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { useGetAllCategories } from '../../../../../queries/catalogs.query';
+import { responsiveCarousel } from '../../constants/navigation';
 
 import styles from './Navigation.module.scss';
 
@@ -17,7 +18,7 @@ interface NavigationProps {
 }
 
 export const Navigation: FC<NavigationProps> = () => {
-  const { categories } = useGetAllCategories();
+  const { categories = [] } = useGetAllCategories();
 
   return (
     <nav className={styles.navigation}>

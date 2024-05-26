@@ -29,11 +29,15 @@
     display: flex;
     align-items: center;
     padding: 2rem;
+    gap: 1rem;
     border: var(--border-width-small) solid var(--border-color);
     border-radius: 0 var(--border-radius-large) var(--border-radius-large) var(--border-radius-large);
   }
 
-  &__select {
-    flex: 1;
+  &__actions {
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+    align-self: flex-end;
   }
 }

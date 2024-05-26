@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from '@mantine/core';
+import { Button, Image } from '@mantine/core';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { catalogSchema } from '../../../utils/validationForms';
@@ -18,6 +18,7 @@ export interface CatalogFormProps {
 }
 
 export const CatalogForm: FC<CatalogFormProps> = ({ onSubmit }) => {
+  const [file, setFile] = useState<File>();
   const {
     register,
     handleSubmit,
@@ -33,7 +34,7 @@ export const CatalogForm: FC<CatalogFormProps> = ({ onSubmit }) => {
 
   return (
     <form
-      className={styles.CatalogForm}
+      className={styles.сatalogForm}
       onSubmit={handleSubmit(handleSubmitForm)}
     >
       <Input
@@ -45,11 +46,19 @@ export const CatalogForm: FC<CatalogFormProps> = ({ onSubmit }) => {
         status={errors.name && 'error'}
         description={errors?.name?.message}
       />
+      {file && (
+        <Image
+          className={styles.image}
+          src={URL.createObjectURL(file)}
+          alt="Изображение"
+        />
+      )}
       <Input
         name="image"
         type="file"
         label="Изображение"
         placeholder="Выберите изображение"
+        onChange={(event) => setFile(event.target.files?.[0])}
         autoComplete="off"
         register={register}
         status={errors.name && 'error'}

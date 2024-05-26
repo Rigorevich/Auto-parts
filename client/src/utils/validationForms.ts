@@ -35,3 +35,32 @@ export const catalogSchema = Yup.object({
   name: Yup.string().required('Поле обязательно!').max(35, 'Максимальная длина - 35 символов'),
   image: Yup.mixed().nullable().required('Файл обязателен!'),
 });
+
+export const autopartSchema = Yup.object().shape({
+  mainInfo: Yup.object().shape({
+    partName: Yup.string().required('Напишите название запчасти'),
+    price: Yup.number()
+      .required('Напишите цену запчасти')
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .positive('Цена должна быть положительной'),
+    quantity: Yup.number()
+      .required('Введите количество запчастей')
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .min(0, 'Количество не может быть отрицательным'),
+    discount: Yup.number()
+      .max(50, 'Скидка не может превышать 50%')
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .min(0, 'Скидка не может быть отрицательной'),
+    description: Yup.string().required('Напишите описание запчасти'),
+  }),
+  applicability: Yup.object().shape({
+    allCars: Yup.boolean(),
+    brand: Yup.string().required('Выберите марку авто'),
+    model: Yup.string().required('Выберите модель авто'),
+    generation: Yup.string().required('Выберите поколение авто'),
+    body: Yup.string().required('Выберите кузов авто'),
+    engine: Yup.string().required('Выберите двигатель авто'),
+    modification: Yup.string().required('Выберите модификацию авто'),
+  }),
+  attributes: Yup.object().shape({}),
+});
