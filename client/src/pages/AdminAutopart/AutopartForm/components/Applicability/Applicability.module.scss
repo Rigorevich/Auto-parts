@@ -6,6 +6,23 @@
     border-bottom: 1px solid var(--dark-contrast-500-color);
   }
 
+  &__selected {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+    gap: 1rem;
+
+    .attribute {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      .name {
+        width: 650px;
+      }
+    }
+  }
+
   &__modifications {
     display: flex;
     flex-direction: column;

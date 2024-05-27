@@ -12,8 +12,8 @@ export interface OptionProps {
 export interface FilterSelectProps {
   searchable?: boolean;
   data?: OptionProps[];
-  value: string | null;
-  onChange: (value: string | null) => void;
+  value?: string | null;
+  onChange: (value: string | null, option: any) => void;
   placeholder: string;
   isLoading?: boolean;
   className?: string;

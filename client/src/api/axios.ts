@@ -12,7 +12,6 @@ export interface Account {
   role: number;
   name?: string;
   surname?: string;
-  patronymic?: string;
   phone_number?: string;
 }
 

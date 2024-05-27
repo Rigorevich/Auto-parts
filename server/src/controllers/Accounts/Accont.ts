@@ -23,8 +23,6 @@ class AccountController {
     const defaultPage = Number(page) || 1;
     const defaultLimit = Number(limit) || 10;
 
-    // TODO: add check roles
-
     try {
       const { accounts, totalCount } = await AccountService.getAccountsWithPagination(
         search.toString(),

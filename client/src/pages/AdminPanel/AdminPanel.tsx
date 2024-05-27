@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { Pagination, TextInput, Select } from '@mantine/core';
+import { Pagination, Select } from '@mantine/core';
 
-import { SearchIcon } from '../../components/ui/Icons/Icons';
 import { useAccountsWithPagination } from '../../queries/accounts.query';
-import { useDebounce } from '../../hooks/useDebounce';
 
 import { SearchInput } from './components/SearchInput/SearchInput';
 import { AdminPanelTable } from './components/AdminPanelTable/AdminPanelTable';

@@ -1,34 +1,33 @@
 import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Image, Rating } from '@mantine/core';
+import { Button, Rating } from '@mantine/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
+import noPhotoSrc from '../../../assets/no-photo.jpg';
+import { Counter } from '../../../components/ui/Counter/Counter';
 import { ShoppingCartIcon } from '../../../components/ui/Icons/Icons';
+import { Autopart } from '../../../api/autoparts';
 
 import styles from './AutopartCard.module.scss';
 
-export const AutopartCardOrders: FC = () => {
+export interface AutopartCardProps {
+  autopart: Autopart;
+}
+
+const apiUrl = import.meta.env.VITE_STATIC_API_URL;
+
+export const AutopartCardOrders: FC<AutopartCardProps> = ({ autopart }) => {
   const [quantity, setQuantity] = useState(1);
 
   return (
     <div className={styles.autopartCard__orders}>
       <div className={styles.orders__price}>
-        61.60 <span>BYN/шт</span>
+        {autopart.price} <span>BYN/шт</span>
       </div>
-      <div className={styles.orders__quantity}>
-        <button
-          className={styles.quantity__button}
-          onClick={() => setQuantity(quantity - 1)}
-        >
-          -
-        </button>
-        <span className={styles.quantity}>{quantity}</span>
-        <button
-          className={styles.quantity__button}
-          onClick={() => setQuantity(quantity + 1)}
-        >
-          +
-        </button>
-      </div>
+      <Counter
+        availableQuantity={Number(autopart.quantity)}
+        onChange={setQuantity}
+      />
       <div className={styles.orders__register}>
         <Button
           color="orange"
@@ -45,48 +44,56 @@ export const AutopartCardOrders: FC = () => {
         >
           Редактировать
         </Button>
-        <span className={styles.orders__availabel}>Доступно: 5 шт</span>
-        <span className={styles.orders__discount}>Скидка: -5%</span>
+        <span className={styles.orders__availabel}>Доступно: {autopart.quantity}</span>
+        {!!Number(autopart.discount) && (
+          <span className={styles.orders__discount}>
+            Скидка: <span>{autopart.discount}%</span>
+          </span>
+        )}
       </div>
     </div>
   );
 };
 
-export const AutopartCard: FC = () => {
+export const AutopartCard: FC<AutopartCardProps> = ({ autopart }) => {
   return (
     <div className={styles.autopartCard}>
       <div className={styles.autopartCard__container}>
         <div className={styles.autopartCard__image}>
-          <Image src="https://i.pinimg.com/564x/c8/eb/aa/c8ebaab9543e844ecf97aba72f75fe62.jpg" />
+          <LazyLoadImage
+            src={autopart.image ? `${apiUrl}/${autopart.image}` : noPhotoSrc}
+            width={280}
+          />
         </div>
         <div className={styles.autopartCard__description}>
           <div className={styles.autopartCard__name}>
             <Link
-              to="#"
+              to={`/autoparts/${autopart.id}`}
               className={styles.link}
             >
-              Тормозной диск A.B.S. 17520
+              {autopart.name}
             </Link>
           </div>
           <ul className={styles.autopartCard__attributes}>
-            {[...new Array(5)].map((_, index) => (
+            {autopart.attributes.slice(0, 5).map(({ type, value }, index) => (
               <li
                 className={styles.attributes__item}
-                key={index}
+                key={`${type}-${index}`}
               >
-                <span className={styles.attribute}>Характеристика</span>
+                <span className={styles.attribute}>{type}</span>
                 <span className={styles.dots}></span>
-                <span className={styles.attributeValue}>Значение</span>
+                <span className={styles.attributeValue}>{value}</span>
               </li>
             ))}
           </ul>
           <Rating
+            readOnly
+            value={autopart.averageRating}
             className={styles.autopartCard__rating}
-            defaultValue={5}
             size="lg"
           />
         </div>
-        <AutopartCardOrders />
+        <AutopartCardOrders autopart={autopart} />
       </div>
     </div>
   );

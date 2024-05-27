@@ -55,12 +55,15 @@ export const autopartSchema = Yup.object().shape({
   }),
   applicability: Yup.object().shape({
     allCars: Yup.boolean(),
-    brand: Yup.string().required('Выберите марку авто'),
-    model: Yup.string().required('Выберите модель авто'),
-    generation: Yup.string().required('Выберите поколение авто'),
-    body: Yup.string().required('Выберите кузов авто'),
-    engine: Yup.string().required('Выберите двигатель авто'),
-    modification: Yup.string().required('Выберите модификацию авто'),
+    applicability: Yup.array(),
   }),
-  attributes: Yup.object().shape({}),
+  attributes: Yup.object().shape({
+    images: Yup.array(),
+    attributes: Yup.array(),
+  }),
+});
+
+export const feedbackSchema = Yup.object({
+  rating: Yup.number().required('Оставьте оценку'),
+  feedback: Yup.string().required('Напишите отзыв').max(255, 'Максимальная длина - 255 символов'),
 });

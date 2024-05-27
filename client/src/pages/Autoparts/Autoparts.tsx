@@ -1,9 +1,11 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button, LoadingOverlay, Pagination, Select } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 
 import { useGetSubcategoriesByCategoryId } from '../../queries/catalogs.query';
+import { useGetAutopartsWithPagination } from '../../queries/autoparts.query';
 import { PAGES } from '../../constants/pages';
+import { AuthContext, AuthContextInterface } from '../../context/AuthContext';
 
 import { AutopartCard } from './AutopartCard/AutopartCard';
 import { NavigationPanel } from './NavigationPanel/NavigationPanel';
@@ -12,9 +14,15 @@ import styles from './Autoparts.module.scss';
 
 const Autoparts = () => {
   const [searchParams] = useSearchParams();
-  const { subcategories, isSubcategoriesLoading } = useGetSubcategoriesByCategoryId(
-    `${searchParams.get('categoryId')}`
-  );
+  const { accountData } = useContext(AuthContext) as AuthContextInterface;
+
+  const subcategoryId = `${searchParams.get('subcategoryId')}`;
+  const categoryId = `${searchParams.get('categoryId')}`;
+
+  const [page, setPage] = useState(1);
+
+  const { subcategories, isSubcategoriesLoading } = useGetSubcategoriesByCategoryId(categoryId);
+  const { autoparts, totalCount, isAutopartsLoading } = useGetAutopartsWithPagination(page, undefined, subcategoryId);
 
   const navigate = useNavigate();
 
@@ -23,14 +31,18 @@ const Autoparts = () => {
     [searchParams, subcategories]
   );
 
-  if (isSubcategoriesLoading) {
-    <LoadingOverlay visible />;
-  }
+  const handleChangePage = (value: number) => {
+    setPage(value);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <main className={styles.autoparts}>
       <div className={styles.autoparts__container}>
-        <h2 className={styles.autoparts__title}>{selectedSubcategory?.name}</h2>
+        <LoadingOverlay visible={isSubcategoriesLoading || isAutopartsLoading} />
+        <h2 className={styles.autoparts__title}>
+          {selectedSubcategory?.name} <span className={styles.autoparts__count}>{totalCount}</span>{' '}
+        </h2>
         <NavigationPanel options={subcategories} />
         <div className={styles.autoparts__content}>
           <div className={styles.autoparts__panel}>
@@ -44,33 +56,42 @@ const Autoparts = () => {
               />
             </div>
 
-            <div className={styles.panel__admin}>
-              <Button
-                size="xs"
-                color="orange"
-                onClick={() =>
-                  navigate({
-                    pathname: PAGES.ADMIN_AUTOPART,
-                    search: `?categoryId=${searchParams.get('categoryId')}&subcategoryId=${searchParams.get('subcategoryId')}`,
-                  })
-                }
-              >
-                Добавить запчасть
-              </Button>
-            </div>
+            {accountData?.role === 1 && (
+              <div className={styles.panel__admin}>
+                <Button
+                  size="xs"
+                  color="orange"
+                  onClick={() =>
+                    navigate({
+                      pathname: PAGES.ADMIN_AUTOPART,
+                      search: `?categoryId=${categoryId}&subcategoryId=${subcategoryId}`,
+                    })
+                  }
+                >
+                  Добавить запчасть
+                </Button>
+              </div>
+            )}
           </div>
           <div className={styles.autoparts__list}>
-            {[...new Array(5)].map((_, index) => (
-              <AutopartCard key={index} />
+            {autoparts?.map((autopart, index) => (
+              <AutopartCard
+                key={index}
+                autopart={autopart}
+              />
             ))}
           </div>
         </div>
-        <div className={styles.autoparts__pagination}>
-          <Pagination
-            total={5}
-            color="orange"
-          />
-        </div>
+        {(!isSubcategoriesLoading || !isAutopartsLoading) && (
+          <div className={styles.autoparts__pagination}>
+            <Pagination
+              total={Math.ceil((totalCount || 0) / 5)}
+              value={page}
+              onChange={handleChangePage}
+              color="orange"
+            />
+          </div>
+        )}
       </div>
     </main>
   );

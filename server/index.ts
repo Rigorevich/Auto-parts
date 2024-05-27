@@ -11,6 +11,8 @@ import AccountRootRouter from './src/routers/Account';
 import CategoryRootRouter from './src/routers/Categories';
 import SubcategoryRootRouter from './src/routers/Subcategories';
 import CarAttributesRootRouter from './src/routers/CarAttributes';
+import AutopartsRootRouter from './src/routers/Autoparts';
+import FeedbacksRootRouter from './src/routers/Feedbacks';
 
 dotenv.config();
 
@@ -21,6 +23,7 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, 'src', 'static')));
 app.use(cors({ credentials: true, origin: CLIENT_URL }));
 app.use(
@@ -35,6 +38,8 @@ app.use('/api/accounts', AccountRootRouter);
 app.use('/api/categories', CategoryRootRouter);
 app.use('/api/subcategories', SubcategoryRootRouter);
 app.use('/api/cars', CarAttributesRootRouter);
+app.use('/api/autoparts', AutopartsRootRouter);
+app.use('/api/feedbacks', FeedbacksRootRouter);
 
 const bootstrap = async () => {
   try {

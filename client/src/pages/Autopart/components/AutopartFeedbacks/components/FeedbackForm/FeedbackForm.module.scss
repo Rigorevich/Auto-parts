@@ -1,0 +1,17 @@
+@import '../../../../../../styles/mixins';
+
+.feedbackForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & .ratingError {
+    @include typography-caption;
+
+    color: var(--red-color);
+  }
+
+  & .submit {
+    margin-top: 1rem;
+  }
+}

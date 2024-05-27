@@ -28,7 +28,6 @@ export const CatalogForm: FC<CatalogFormProps> = ({ onSubmit }) => {
   });
 
   const handleSubmitForm = (formValue: FormValues) => {
-    // createCatalog({ name: formValue.name, image: formValue.image[0] });
     onSubmit(formValue);
   };
 

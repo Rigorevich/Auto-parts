@@ -42,7 +42,7 @@
           @include typography-text;
 
           display: flex;
-          align-items: flex-end;
+          align-items: center;
           justify-content: space-between;
           padding: 5px 0;
           font-size: var(--font-size-md);
@@ -52,10 +52,12 @@
             flex: 1;
             border-bottom: var(--border-width-small) dotted var(--dark-contrast-300-color);
             margin: 0 1rem;
+            align-self: flex-end;
           }
 
           .attributeValue {
             color: var(--dark-contrast-100-color);
+            margin-right: 2rem;
           }
         }
       }

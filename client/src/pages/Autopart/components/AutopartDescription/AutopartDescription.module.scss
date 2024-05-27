@@ -1,0 +1,13 @@
+.autopart__description {
+  margin-top: 5rem;
+  & .title {
+    font-size: 26px;
+    margin: 0;
+    padding: 0;
+  }
+
+  & .description {
+    margin-top: 1rem;
+    max-width: 800px;
+  }
+}

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input, NumberInput, Textarea } from '@mantine/core';
 
@@ -7,7 +7,15 @@ import styles from './MainInfo.module.scss';
 export interface MainInfoProps {}
 
 export const MainInfo: FC<MainInfoProps> = () => {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useFormContext();
+
+  useEffect(() => {
+    reset(undefined);
+  }, [isSubmitSuccessful]);
 
   return (
     <div className={styles.mainInfo}>
@@ -42,6 +50,7 @@ export const MainInfo: FC<MainInfoProps> = () => {
                 <NumberInput
                   {...field}
                   min={0}
+                  suffix=" BYN"
                   placeholder="Напишите цену запчасти"
                 />
               </Input.Wrapper>
@@ -60,7 +69,7 @@ export const MainInfo: FC<MainInfoProps> = () => {
                   <NumberInput
                     {...field}
                     placeholder="Введите количество запчастей"
-                    suffix="шт."
+                    suffix=" шт."
                     min={0}
                   />
                 </Input.Wrapper>

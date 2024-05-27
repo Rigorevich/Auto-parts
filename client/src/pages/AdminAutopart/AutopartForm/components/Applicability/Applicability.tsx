@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import { Checkbox, Select, Button } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import { ChangeEventHandler, FC, useState, useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Checkbox, Select, Button, Loader } from '@mantine/core';
 
+import { FilterType, AttributesState, useFilter } from '../../../../../hooks/useFilter';
 import {
   useGetCarBodyTypes,
   useGetCarBrands,
@@ -17,128 +17,148 @@ import styles from './Applicability.module.scss';
 export interface ApplicabilityProps {}
 
 export const Applicability: FC<ApplicabilityProps> = () => {
-  const { control, watch } = useFormContext();
+  const {
+    setValue,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useFormContext();
+  const { attributes, dispatch } = useFilter();
 
-  const brand = watch('applicability.brand');
-  const model = watch('applicability.model');
-  const generation = watch('applicability.generation');
-  const bodyType = watch('applicability.body');
-  const engine = watch('applicability.engine');
+  const [selectedAttributes, setSelectedAttributes] = useState<AttributesState<any>[]>([]);
+  const [allCars, setAllCars] = useState(false);
 
-  const { brands } = useGetCarBrands();
-  const { models } = useGetCarModels(brand);
-  const { generations } = useGetCarGenerations(model);
-  const { engines } = useGetCarEngines(generation);
-  const { bodyTypes } = useGetCarBodyTypes(generation);
-  const { modifications } = useGetCarModifications(engine, generation, bodyType);
+  const { brands, isBrandsLoading } = useGetCarBrands();
+  const { models, isModelsLoading } = useGetCarModels(attributes.brand?.value || '');
+  const { generations, isGenerationsLoading } = useGetCarGenerations(attributes.model?.value || '');
+  const { engines, isEnginesLoading } = useGetCarEngines(attributes.generation?.value || '');
+  const { bodyTypes, isBodyTypesLoading } = useGetCarBodyTypes(attributes.generation?.value || '');
+  const { modifications, isModificationsLoading } = useGetCarModifications(
+    attributes.engine?.value || '',
+    attributes.generation?.value || '',
+    attributes.bodyType?.value || ''
+  );
+
+  const handleSelectModification = (value: string | null, option: any) => {
+    setSelectedAttributes((prev) => [...prev, { ...attributes, modification: { value, option } }]);
+
+    dispatch({ type: FilterType.RESET, payload: null });
+  };
+
+  const handleDeleteModification = (value?: string | null) => {
+    setSelectedAttributes((prev) => prev.filter((attribute) => attribute.modification?.value !== value));
+  };
+
+  const handleChangeAllCars: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setAllCars(event.target.checked);
+    setSelectedAttributes([]);
+  };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      dispatch({ type: FilterType.RESET, payload: null });
+      setSelectedAttributes([]);
+      setAllCars(false);
+      reset(undefined);
+    }
+  }, [isSubmitSuccessful]);
+
+  useEffect(() => {
+    setValue('applicability.applicability', selectedAttributes);
+    setValue('applicability.allCars', allCars);
+  }, [selectedAttributes, allCars]);
 
   return (
     <div className={styles.applicability}>
       <h2 className={styles.applicability__title}>Применимость к авто</h2>
-      <div className={styles.applicability__modifications}>
-        <Controller
-          name="applicability.allCars"
-          control={control}
-          render={({ field: { value, ...field } }) => (
-            <Checkbox
-              {...field}
-              label="Запчасть подходит для всех автомобилей"
-              checked={value}
-            />
-          )}
-        />
-        <div className={styles.selects}>
-          <Controller
-            name="applicability.brand"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Select
-                {...field}
-                data={brands}
-                className={styles.select}
-                label="Марка авто"
-                placeholder="Выберите марку"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-          <Controller
-            name="applicability.model"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Select
-                {...field}
-                data={models}
-                className={styles.select}
-                label="Модель авто"
-                placeholder="Выберите модель"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-          <Controller
-            name="applicability.generation"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Select
-                {...field}
-                data={generations}
-                className={styles.select}
-                label="Поколение авто"
-                placeholder="Выберите поколение"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-          <Controller
-            name="applicability.body"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Select
-                {...field}
-                data={bodyTypes}
-                className={styles.select}
-                label="Кузов авто"
-                placeholder="Выберите кузов"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-          <Controller
-            name="applicability.engine"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Select
-                {...field}
-                data={engines}
-                className={styles.select}
-                label="Двигатель авто"
-                placeholder="Выберите двигатель"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-          <Controller
-            name="applicability.modification"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Select
-                {...field}
-                data={modifications}
-                className={styles.select}
-                label="Модификация авто"
-                placeholder="Выберите модификацию"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
+      {selectedAttributes.length > 0 && (
+        <div className={styles.applicability__selected}>
+          {selectedAttributes.map((attribute, index) => (
+            <div
+              className={styles.attribute}
+              key={index}
+            >
+              <div className={styles.name}>
+                {attribute.brand?.option.label} {attribute.model?.option.label} {attribute.generation?.option.label} |{' '}
+                {attribute.bodyType?.option.label} | {attribute.engine?.option.label} |{' '}
+                {attribute.modification?.option.label}
+              </div>
+              <Button
+                className={styles.delete}
+                onClick={() => handleDeleteModification(attribute.modification?.value)}
+                size="xs"
+              >
+                Удалить
+              </Button>
+            </div>
+          ))}
         </div>
-        <Button
-          className={styles.addModification}
-          leftSection={<IconPlus />}
-        >
-          Добавить модификацию
-        </Button>
+      )}
+      <div className={styles.applicability__modifications}>
+        <Checkbox
+          label="Запчасть подходит для всех автомобилей"
+          checked={allCars}
+          onChange={handleChangeAllCars}
+        />
+        {!allCars && (
+          <div className={styles.selects}>
+            <Select
+              searchable
+              data={brands}
+              className={styles.select}
+              value={attributes.brand?.value || null}
+              onChange={(value, option) => dispatch({ type: FilterType.BRAND, payload: { value, option } })}
+              label="Марка авто"
+              rightSection={isBrandsLoading && <Loader size="xs" />}
+              placeholder="Выберите марку"
+            />
+            <Select
+              searchable
+              data={models}
+              className={styles.select}
+              value={attributes.model?.value || null}
+              onChange={(value, option) => dispatch({ type: FilterType.MODEL, payload: { value, option } })}
+              label="Модель авто"
+              rightSection={isModelsLoading && <Loader size="xs" />}
+              placeholder="Выберите модель"
+            />
+            <Select
+              data={generations}
+              className={styles.select}
+              value={attributes.generation?.value || null}
+              onChange={(value, option) => dispatch({ type: FilterType.GENERATION, payload: { value, option } })}
+              label="Поколение авто"
+              rightSection={isGenerationsLoading && <Loader size="xs" />}
+              placeholder="Выберите поколение"
+            />
+            <Select
+              data={bodyTypes}
+              className={styles.select}
+              value={attributes.bodyType?.value || null}
+              onChange={(value, option) => dispatch({ type: FilterType.BODY_TYPE, payload: { value, option } })}
+              label="Кузов авто"
+              rightSection={isBodyTypesLoading && <Loader size="xs" />}
+              placeholder="Выберите кузов"
+            />
+            <Select
+              data={engines}
+              className={styles.select}
+              value={attributes.engine?.value || null}
+              onChange={(value, option) => dispatch({ type: FilterType.ENGINE, payload: { value, option } })}
+              label="Двигатель авто"
+              rightSection={isEnginesLoading && <Loader size="xs" />}
+              placeholder="Выберите двигатель"
+            />
+            <Select
+              data={modifications}
+              className={styles.select}
+              value={attributes.modification?.value || null}
+              onChange={handleSelectModification}
+              label="Модификация авто"
+              rightSection={isModificationsLoading && <Loader size="xs" />}
+              placeholder="Выберите модификацию"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

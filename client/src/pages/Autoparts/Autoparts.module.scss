@@ -2,6 +2,19 @@
   width: 100%;
   height: 100vh;
 
+  &__title {
+    position: relative;
+    max-width: max-content;
+  }
+
+  &__count {
+    position: absolute;
+    font-size: var(--font-size-xl);
+    color: var(--blue-color);
+    top: -5px;
+    right: -25px;
+  }
+
   &__container {
     display: flex;
     flex-direction: column;

@@ -1,0 +1,32 @@
+.autopart__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--dark-contrast-500-color);
+
+  & .title {
+    font-size: 32px;
+    margin: 0;
+    padding: 0;
+  }
+
+  & .links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    & .link {
+      text-decoration: none;
+      color: var(--blue-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-duration-short);
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+}

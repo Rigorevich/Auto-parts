@@ -1,0 +1,18 @@
+.feedback_card {
+  display: flex;
+  align-items: center;
+
+  & .avatar {
+    margin-right: 1.5rem;
+  }
+  & .feedback {
+    flex: 1;
+  }
+
+  & .deleteFeedback {
+    margin-right: 1rem;
+  }
+
+  & .rating {
+  }
+}

@@ -24,10 +24,13 @@
 
   &__image {
     width: 300px;
+    margin: 0 1rem;
   }
 
   &__description {
     height: 100%;
+    display: flex;
+    flex-direction: column;
     flex: 1;
 
     .autopartCard__name {
@@ -56,6 +59,7 @@
       list-style: none;
       padding: 0;
       margin: 0;
+      flex: 1;
 
       .attributes__item {
         @include typography-text;
@@ -82,7 +86,6 @@
 
   &__orders {
     --border-color: var(--dark-contrast-700-color);
-    --counter-color: var(--dark-contrast-500-color);
 
     display: flex;
     align-items: center;
@@ -102,37 +105,6 @@
         @include typography-text;
 
         font-weight: var(--font-weight-light);
-      }
-    }
-
-    .orders__quantity {
-      display: flex;
-      align-items: center;
-      border: 1px solid var(--counter-color);
-      border-radius: 5px;
-
-      .quantity__button {
-        @include button-reset;
-
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        font-size: var(--font-size-xxl);
-        transition: var(--transition-duration-medium);
-
-        &:hover {
-          color: var(--orange-color);
-        }
-      }
-
-      .quantity {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-right: var(--border-width-small) solid var(--counter-color);
-        border-left: var(--border-width-small) solid var(--counter-color);
-        width: 50px;
-        height: 40px;
       }
     }
   }
@@ -160,6 +132,12 @@
       @include typography-text;
 
       font-size: var(--font-size-md);
+    }
+
+    .orders__discount span {
+      color: var(--red-color);
+      font-weight: 600;
+      font-size: 16px;
     }
   }
 }
