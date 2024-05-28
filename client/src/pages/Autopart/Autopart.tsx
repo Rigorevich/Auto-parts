@@ -19,7 +19,10 @@ const Autopart = () => {
     <main className={styles.autopart}>
       <LoadingOverlay visible={isAutopartLoading} />
       <div className={styles.autopart__container}>
-        <AutopartHeader name={autopart?.name} />
+        <AutopartHeader
+          name={autopart?.name}
+          autopartId={id}
+        />
         <AutopartMain
           attributes={autopart?.attributes}
           discount={autopart?.discount}

@@ -4,7 +4,7 @@ import { NotFound, BadRequest } from '../../utils/Errors';
 
 class FeedbacksService {
   static async getAllFeedbacks(id: string, sortBy?: 'rating' | 'default') {
-    const feedbacks = await FeedbacksRepository.getAllFeedbacks(id);
+    const feedbacks = await FeedbacksRepository.getAllFeedbacks(id, sortBy);
 
     if (!feedbacks) {
       throw new NotFound('Отзывы не найдены!');

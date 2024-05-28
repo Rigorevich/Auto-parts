@@ -4,7 +4,7 @@ import { PAGES } from '../../../../constants/pages';
 export const CONTROLLER_ITEMS = [
   {
     tooltipLabel: 'Мой аккаунт',
-    route: PAGES.PROFILE,
+    route: PAGES.PROFILE_EDIT,
     icon: <ProfileIcon />,
   },
   {

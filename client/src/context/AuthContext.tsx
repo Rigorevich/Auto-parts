@@ -15,7 +15,9 @@ export interface AuthContextInterface {
   isUserLogged: boolean;
   accountData: Account | null;
   cars: SavedCar[];
+  favorites: string[];
   setCars: Dispatch<SetStateAction<SavedCar[]>>;
+  setFavorites: Dispatch<SetStateAction<string[]>>;
   setAccountData: Dispatch<SetStateAction<Account | null>>;
   handleLogOut: () => void;
   handleSignUp: (data: AuthData) => void;
@@ -36,6 +38,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const savedCars = localStorage.getItem('modifications');
 
     return savedCars ? JSON.parse(savedCars) : [];
+  });
+
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    const savedFavorites = localStorage.getItem('favorites');
+
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
   });
 
   const handleLogOut = async () => {
@@ -117,7 +125,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         accountData,
         setAccountData,
         cars,
+        favorites,
         setCars,
+        setFavorites,
         handleSignUp,
         handleSignIn,
         handleLogOut,

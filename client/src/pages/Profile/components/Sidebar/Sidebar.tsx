@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { PAGES } from '../../../../constants/pages';
 import { ArrowRightIcon } from '../../../../components/ui/Icons/Icons';
 import { SidebarOptionType, SIDEBAR_OPTIONS } from '../../constants/sidebar-options';
 import { AuthContext, AuthContextInterface } from '../../../../context/AuthContext';
@@ -52,18 +51,17 @@ export const SidebarList = ({ options }: { options: SidebarOptionType[] }) => (
 );
 
 export const Sidebar = () => {
+  const { accountData } = useContext(AuthContext) as AuthContextInterface;
+
   return (
     <div className={styles.sidebar}>
-      <h2 className={styles.sidebar__title}>
-        <Link
-          className={styles.sidebar__title_link}
-          to={PAGES.PROFILE}
-        >
-          Мои профиль
-        </Link>
-      </h2>
+      <h2 className={styles.sidebar__title}>Мои профиль</h2>
       <aside className={styles.sidebar__content}>
         {Object.keys(SIDEBAR_OPTIONS).map((title) => {
+          if (title === 'Администрирование' && accountData?.role !== 1) {
+            return;
+          }
+
           return (
             <div
               key={title}

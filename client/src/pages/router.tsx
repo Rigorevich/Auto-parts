@@ -67,7 +67,6 @@ const router = createBrowserRouter([
               {
                 path: '',
                 index: true,
-                element: <div>Profile</div>,
               },
               {
                 path: PAGES.ADMIN_PANEL,
