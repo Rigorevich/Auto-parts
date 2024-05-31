@@ -45,6 +45,11 @@
     gap: 2rem;
   }
 
+  &__empty {
+    text-align: center;
+    margin: 10rem 0;
+  }
+
   &__pagination {
     margin-top: 1.5rem;
     align-self: center;

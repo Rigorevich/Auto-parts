@@ -15,11 +15,11 @@ export const Counter: FC<CounterProps> = ({ availableQuantity, onChange, classNa
   const handleChangeCounter = (type: 'increment' | 'decrement') => {
     if (type === 'increment' && quantity < availableQuantity) {
       setQuantity(quantity + 1);
+      onChange?.(quantity + 1);
     } else if (type === 'decrement' && quantity > 1) {
       setQuantity(quantity - 1);
+      onChange?.(quantity - 1);
     }
-
-    onChange?.(quantity);
   };
 
   return (

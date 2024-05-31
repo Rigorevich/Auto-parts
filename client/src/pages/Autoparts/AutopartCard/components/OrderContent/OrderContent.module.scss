@@ -1,0 +1,58 @@
+@import '../../../../../styles/mixins';
+
+.orderContent {
+  --border-color: var(--dark-contrast-700-color);
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem 3rem;
+  border-left: 1px solid var(--dark-contrast-700-color);
+
+  .price {
+    @include typography-subtitle-16;
+
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-semibold);
+
+    span {
+      @include typography-text;
+
+      font-weight: var(--font-weight-light);
+    }
+  }
+
+  .register {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .inCart {
+      margin-bottom: 0.75rem;
+
+      svg {
+        width: 20px;
+      }
+    }
+
+    .update {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    .availabel,
+    .discount {
+      @include typography-text;
+
+      font-size: var(--font-size-md);
+    }
+
+    .text span {
+      color: var(--red-color);
+      font-weight: 600;
+      font-size: 16px;
+    }
+  }
+}

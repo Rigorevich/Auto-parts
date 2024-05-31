@@ -17,6 +17,9 @@ import Autoparts from './Autoparts/Autoparts';
 import Autopart from './Autopart/Autopart';
 import MyCars from './MyCars/MyCars';
 import AdminAutopart from './AdminAutopart/AdminAutopart';
+import Cart from './Cart/Cart';
+import Favorites from './Favorites/Favorites';
+import Orders from './Orders/Orders';
 
 const router = createBrowserRouter([
   {
@@ -78,15 +81,15 @@ const router = createBrowserRouter([
               },
               {
                 path: PAGES.CART,
-                element: <div>Cart</div>,
+                element: <Cart />,
               },
               {
                 path: PAGES.FAVORITES,
-                element: <div>Favorites</div>,
+                element: <Favorites />,
               },
               {
                 path: PAGES.ORDERS,
-                element: <div>Orders</div>,
+                element: <Orders />,
               },
               {
                 path: PAGES.PROFILE_EDIT,

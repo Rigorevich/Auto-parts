@@ -3,6 +3,25 @@
   align-items: center;
   gap: 1.25rem;
 
+  & .link {
+    position: relative;
+
+    & .badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -0.85rem;
+      right: -0.85rem;
+      width: 19px;
+      height: 19px;
+      background-color: var(--blue-color);
+      color: var(--white-color);
+      border-radius: 50%;
+      font-size: var(--font-size-xxs);
+    }
+  }
+
   & svg {
     width: 25px;
     height: 25px;

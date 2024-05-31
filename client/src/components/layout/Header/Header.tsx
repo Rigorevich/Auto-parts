@@ -12,7 +12,7 @@ import { SearchPanel } from './components/SearchPanel/SearchPanel';
 import styles from './Header.module.scss';
 
 export const Header = () => {
-  const { isUserLogged } = useContext(AuthContext) as AuthContextInterface;
+  const { cart } = useContext(AuthContext) as AuthContextInterface;
 
   const handleSearch = () => {};
 
@@ -24,7 +24,7 @@ export const Header = () => {
             <LogoIcon />
           </Link>
           <SearchPanel onSearch={handleSearch} />
-          <Controller />
+          <Controller cartCount={cart.length} />
         </div>
         <Navigation />
       </div>

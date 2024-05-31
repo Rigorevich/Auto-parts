@@ -14,7 +14,7 @@ import styles from './Autoparts.module.scss';
 
 const Autoparts = () => {
   const [searchParams] = useSearchParams();
-  const { accountData } = useContext(AuthContext) as AuthContextInterface;
+  const { accountData, isActiveCar } = useContext(AuthContext) as AuthContextInterface;
 
   const subcategoryId = `${searchParams.get('subcategoryId')}`;
   const categoryId = `${searchParams.get('categoryId')}`;
@@ -22,7 +22,12 @@ const Autoparts = () => {
   const [page, setPage] = useState(1);
 
   const { subcategories, isSubcategoriesLoading } = useGetSubcategoriesByCategoryId(categoryId);
-  const { autoparts, totalCount, isAutopartsLoading } = useGetAutopartsWithPagination(page, undefined, subcategoryId);
+  const { autoparts, totalCount, isAutopartsLoading } = useGetAutopartsWithPagination(
+    page,
+    undefined,
+    subcategoryId,
+    isActiveCar?.id
+  );
 
   const navigate = useNavigate();
 
@@ -73,14 +78,18 @@ const Autoparts = () => {
               </div>
             )}
           </div>
-          <div className={styles.autoparts__list}>
-            {autoparts?.map((autopart, index) => (
-              <AutopartCard
-                key={index}
-                autopart={autopart}
-              />
-            ))}
-          </div>
+          {autoparts && autoparts.length > 0 ? (
+            <div className={styles.autoparts__list}>
+              {autoparts?.map((autopart, index) => (
+                <AutopartCard
+                  key={index}
+                  autopart={autopart}
+                />
+              ))}
+            </div>
+          ) : (
+            <h2 className={styles.autoparts__empty}>Нет автозапчастей</h2>
+          )}
         </div>
         {(!isSubcategoriesLoading || !isAutopartsLoading) && (
           <div className={styles.autoparts__pagination}>

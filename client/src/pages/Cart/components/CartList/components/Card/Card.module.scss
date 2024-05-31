@@ -1,0 +1,65 @@
+.card {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.productImage {
+  margin-right: 16px;
+}
+
+.productDetails {
+  flex: 1;
+}
+
+.productName {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.productAttr {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  gap: 0.4rem;
+}
+
+.quantityButton {
+  background-color: #ff6f00;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.priceInfo {
+  text-align: right;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.newPrice {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff6f00;
+}
+
+.trashIcon {
+  margin-left: 30px;
+  cursor: pointer;
+}

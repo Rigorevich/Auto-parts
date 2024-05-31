@@ -6,6 +6,7 @@ import { AuthClient, AuthResponse, AuthData, Account } from '../api/axios';
 import { api_config } from '../api/api_config';
 import { showErrowMessage } from '../utils/showErrowMessage';
 import { showSuccessMessage } from '../utils/showSuccessMessage';
+import { getDataFromLocalStorage, setDataToLocalStorage } from '../utils/localStorage';
 import inMemoryJWT from '../services/inMemoryJWT';
 
 export const AuthContext = createContext({});
@@ -15,8 +16,11 @@ export interface AuthContextInterface {
   isUserLogged: boolean;
   accountData: Account | null;
   cars: SavedCar[];
+  isActiveCar?: SavedCar;
   favorites: string[];
+  cart: Cart[];
   setCars: Dispatch<SetStateAction<SavedCar[]>>;
+  setCart: Dispatch<SetStateAction<Cart[]>>;
   setFavorites: Dispatch<SetStateAction<string[]>>;
   setAccountData: Dispatch<SetStateAction<Account | null>>;
   handleLogOut: () => void;
@@ -29,22 +33,23 @@ export interface SavedCar {
   active: boolean;
 }
 
+export interface Cart {
+  id: string;
+  quantity: number;
+  price: number;
+  discount: number;
+}
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [accountData, setAccountData] = useState<Account | null>(null);
 
-  const [cars, setCars] = useState<SavedCar[]>(() => {
-    const savedCars = localStorage.getItem('modifications');
+  const [cars, setCars] = useState<SavedCar[]>(getDataFromLocalStorage('modifications'));
+  const [favorites, setFavorites] = useState<string[]>(getDataFromLocalStorage('favorites'));
+  const [cart, setCart] = useState<Cart[]>(getDataFromLocalStorage('cart'));
 
-    return savedCars ? JSON.parse(savedCars) : [];
-  });
-
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    const savedFavorites = localStorage.getItem('favorites');
-
-    return savedFavorites ? JSON.parse(savedFavorites) : [];
-  });
+  const isActiveCar = cars.find((car) => car.active);
 
   const handleLogOut = async () => {
     try {
@@ -52,6 +57,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setIsUserLogged(false);
       inMemoryJWT.deleteToken();
+      setDataToLocalStorage('modifications', []);
+      setDataToLocalStorage('favorites', []);
       setAccountData(null);
       showSuccessMessage('Вы успешно вышли из аккаунта!');
     } catch (error) {
@@ -124,9 +131,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         accountData,
         setAccountData,
+        isActiveCar,
         cars,
+        cart,
         favorites,
         setCars,
+        setCart,
         setFavorites,
         handleSignUp,
         handleSignIn,
