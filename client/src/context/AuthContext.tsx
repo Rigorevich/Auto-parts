@@ -59,6 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       inMemoryJWT.deleteToken();
       setDataToLocalStorage('modifications', []);
       setDataToLocalStorage('favorites', []);
+      setDataToLocalStorage('cart', []);
       setAccountData(null);
       showSuccessMessage('Вы успешно вышли из аккаунта!');
     } catch (error) {
