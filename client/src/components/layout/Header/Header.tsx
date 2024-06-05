@@ -14,8 +14,6 @@ import styles from './Header.module.scss';
 export const Header = () => {
   const { cart } = useContext(AuthContext) as AuthContextInterface;
 
-  const handleSearch = () => {};
-
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
@@ -23,7 +21,7 @@ export const Header = () => {
           <Link to={PAGES.ROOT}>
             <LogoIcon />
           </Link>
-          <SearchPanel onSearch={handleSearch} />
+          <SearchPanel />
           <Controller cartCount={cart.length} />
         </div>
         <Navigation />

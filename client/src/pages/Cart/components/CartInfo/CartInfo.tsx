@@ -1,27 +1,36 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext } from 'react';
 import { Input, Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Yup from 'yup';
 
 import { AuthContext, AuthContextInterface } from '../../../../context/AuthContext';
 import { setDataToLocalStorage } from '../../../../utils/localStorage';
 import { showSuccessMessage } from '../../../../utils/showSuccessMessage';
+import { orderCreateSchema } from '../../../../utils/validationForms';
 
 import styles from './CartInfo.module.scss';
 
 interface CartInfoProps {}
 
+type FormValue = Yup.InferType<typeof orderCreateSchema>;
+
 export const CartInfo: FC<CartInfoProps> = () => {
   const navigate = useNavigate();
-  const [phone, setPhone] = useState('');
-  const { cart, setCart } = useContext(AuthContext) as AuthContextInterface;
+  const { accountData, cart, setCart } = useContext(AuthContext) as AuthContextInterface;
+  const { control, handleSubmit } = useForm({
+    mode: 'onChange',
+    resolver: yupResolver(orderCreateSchema),
+    defaultValues: {
+      phone: accountData?.phone_number,
+    },
+  });
 
-  const handleClearCart = () => {
-    if (phone) {
-      setCart([]);
-      setDataToLocalStorage('cart', []);
-      setPhone('');
-      showSuccessMessage('Заказ оформлен!');
-    }
+  const handleSubmitForm = (formValue: FormValue) => {
+    setCart([]);
+    setDataToLocalStorage('cart', []);
+    showSuccessMessage('Заказ оформлен!');
   };
 
   const totalSum = cart.reduce((acc, item) => {
@@ -33,7 +42,10 @@ export const CartInfo: FC<CartInfoProps> = () => {
   }, 0);
 
   return (
-    <div className={styles.cartInfo}>
+    <form
+      className={styles.cartInfo}
+      onSubmit={handleSubmit(handleSubmitForm)}
+    >
       <div className={styles.header}>
         <span>Ваша корзина</span>
         <span className={styles.itemsCount}>Товары: {cart.length}</span>
@@ -50,22 +62,27 @@ export const CartInfo: FC<CartInfoProps> = () => {
         <span>Итого</span>
         <span>{totalSum - totalEconomy} BYN</span>
       </div>
-      <Input.Wrapper
-        required
-        className={styles.phoneInput}
-        label="Введите номер телефона"
-      >
-        <Input
-          placeholder="Номер телефона"
-          value={phone}
-          onChange={(event) => setPhone(event.target.value)}
-        />
-      </Input.Wrapper>
+      <Controller
+        name="phone"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Input.Wrapper
+            label="Введите номер телефона"
+            className={styles.phoneInput}
+            error={fieldState.error?.message}
+          >
+            <Input
+              {...field}
+              placeholder="Номер телефона"
+            />
+          </Input.Wrapper>
+        )}
+      />
       <Button
+        type="submit"
         className={styles.button}
         size="lg"
         color="orange"
-        onClick={handleClearCart}
       >
         Отправить заказ
       </Button>
@@ -76,6 +93,6 @@ export const CartInfo: FC<CartInfoProps> = () => {
       >
         Вернуться к покупкам
       </a>
-    </div>
+    </form>
   );
 };

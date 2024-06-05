@@ -25,7 +25,7 @@ export const useGetAllCategories = () => {
   };
 };
 
-export const useGetSubcategoriesByCategoryId = (categoryId: string) => {
+export const useGetSubcategoriesByCategoryId = (categoryId?: string) => {
   const {
     data: subcategoriesData,
     isError: isSubcategoriesError,
@@ -33,9 +33,10 @@ export const useGetSubcategoriesByCategoryId = (categoryId: string) => {
     refetch: refetchSubcategories,
   } = useQuery({
     queryKey: ['subcategories', categoryId],
-    queryFn: () => catalogsApi.getSubсategoriesByCategoryId(categoryId),
+    queryFn: () => catalogsApi.getSubсategoriesByCategoryId(categoryId!),
     refetchOnWindowFocus: false,
     retry: false,
+    enabled: !!categoryId,
   });
 
   return {

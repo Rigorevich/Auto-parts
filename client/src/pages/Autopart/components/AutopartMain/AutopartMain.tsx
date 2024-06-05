@@ -25,12 +25,12 @@ export const AutopartMain: FC<AutopartMainProps> = ({ images, attributes, price,
   const { cart, setCart } = useContext(AuthContext) as AuthContextInterface;
   const [currentQuantity, setCurrentQuantity] = useState(1);
 
-  const isInCart = cart.some((item) => item.id === id);
+  const isInCart = cart.some((item) => Number(item.id) === Number(id));
 
   const handleAddToCart = () => {
     if (id) {
       const updatedCart = isInCart
-        ? cart.filter((item) => item.id !== id)
+        ? cart.filter((item) => Number(item.id) !== Number(id))
         : [
             ...cart,
             {

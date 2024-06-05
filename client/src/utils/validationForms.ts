@@ -67,3 +67,7 @@ export const feedbackSchema = Yup.object({
   rating: Yup.number().required('Оставьте оценку'),
   feedback: Yup.string().required('Напишите отзыв').max(255, 'Максимальная длина - 255 символов'),
 });
+
+export const orderCreateSchema = Yup.object({
+  phone: Yup.string().matches(phoneValidation, 'Некорректный номер телефона'),
+});

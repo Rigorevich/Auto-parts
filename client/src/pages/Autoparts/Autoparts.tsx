@@ -16,15 +16,16 @@ const Autoparts = () => {
   const [searchParams] = useSearchParams();
   const { accountData, isActiveCar } = useContext(AuthContext) as AuthContextInterface;
 
-  const subcategoryId = `${searchParams.get('subcategoryId')}`;
-  const categoryId = `${searchParams.get('categoryId')}`;
+  const subcategoryId = searchParams.get('subcategoryId') ? `${searchParams.get('subcategoryId')}` : undefined;
+  const categoryId = searchParams.get('categoryId') ? `${searchParams.get('categoryId')}` : undefined;
+  const search = searchParams.get('search') ? `${searchParams.get('search')}` : undefined;
 
   const [page, setPage] = useState(1);
 
   const { subcategories, isSubcategoriesLoading } = useGetSubcategoriesByCategoryId(categoryId);
   const { autoparts, totalCount, isAutopartsLoading } = useGetAutopartsWithPagination(
     page,
-    undefined,
+    search,
     subcategoryId,
     isActiveCar?.id
   );
@@ -45,9 +46,11 @@ const Autoparts = () => {
     <main className={styles.autoparts}>
       <div className={styles.autoparts__container}>
         <LoadingOverlay visible={isSubcategoriesLoading || isAutopartsLoading} />
-        <h2 className={styles.autoparts__title}>
-          {selectedSubcategory?.name} <span className={styles.autoparts__count}>{totalCount}</span>{' '}
-        </h2>
+        {(selectedSubcategory?.name || search) && (
+          <h2 className={styles.autoparts__title}>
+            {selectedSubcategory?.name || search} <span className={styles.autoparts__count}>{totalCount}</span>{' '}
+          </h2>
+        )}
         <NavigationPanel options={subcategories} />
         <div className={styles.autoparts__content}>
           <div className={styles.autoparts__panel}>

@@ -5,7 +5,16 @@
   flex: 1;
 
   &__input {
+    position: relative;
     flex: 1;
+
+    .cross {
+      all: unset;
+      position: absolute;
+      top: 11px;
+      right: 40px;
+      cursor: pointer;
+    }
   }
 
   &__button {
